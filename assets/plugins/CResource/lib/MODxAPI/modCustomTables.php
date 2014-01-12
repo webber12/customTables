@@ -14,7 +14,7 @@ class modCustomTables extends autoTable{
 		'О'=>'O','П'=>'P','Р'=>'R','С'=>'S','Т'=>'T','У'=>'U','Ф'=>'F','Х'=>'H','Ц'=>'C',
 		'Ч'=>'Ch','Ш'=>'Sh','Щ'=>'Sch','Ь'=>'','Ы'=>'Y','Ъ'=>'','Э'=>'E','Ю'=>'Yu','Я'=>'Ya',
     );
-	
+
     public function setTable($table_name)
     {
         $this->table=$table_name;
@@ -28,6 +28,10 @@ class modCustomTables extends autoTable{
                 $this->default_field[$item['Field']] = $item['Default'];
             }
         }
+    }
+
+    public function getTable(){
+        return $this->table;
     }
 
     public function create($data=array())
