@@ -88,7 +88,7 @@ public function addTable($id)
     return true;
 }
 
-public function getSQLType($type, $default='TEXT NULL')
+protected function getSQLType($type, $default='TEXT NULL')
 {
     $types = array(
                 'date'=>"INT(20) NOT NULL DEFAULT '0'",
@@ -97,14 +97,14 @@ public function getSQLType($type, $default='TEXT NULL')
     return isset($types[$type]) ? $types[$type] : $default;
 }
 
-public function getTVInfo($tv_id)
+protected function getTVInfo($tv_id)
 {
     $sql = "SELECT * FROM ".$this->tmplvars_table." WHERE id='".$tv_id."' LIMIT 0,1";
     $info = $this->modx->db->getRow($this->modx->db->query($sql));
     return $info;
 }
 
-public function columnExists($column, $table)
+protected function columnExists($column, $table)
 {
     if(!$this->tableExists($table)) {return false;}
     else{
@@ -118,7 +118,7 @@ public function columnExists($column, $table)
 }
   
 
-public function tableExists($table)
+protected function tableExists($table)
 {
     $sql = "SHOW TABLES LIKE '$table'";
     $res = $this->modx->db->query($sql);
@@ -145,7 +145,7 @@ public function createColumns($tv_id)
     }
 }
 
-private function createColumn($table_name, $tv_info=array(), $tv_id=''){
+protected function createColumn($table_name, $tv_info=array(), $tv_id=''){
     if(empty($tv_info) && $tv_id != ''){
         $tv_info = $this->getTVInfo($tv_id);
     }
@@ -207,13 +207,13 @@ public function checkTemplateById($id, $table=false)
     else return false;
 }
 
-public function checkTemplate($template)
+public function checkTemplate($template_id)
 {
-    if(in_array($template,$this->tmpl_ids_array)) return true;
+    if(in_array($template_id,$this->tmpl_ids_array)) return true;
     else return false;
 }
 
-public function getTVNames($template_id)
+protected function getTVNames($template_id)
 {
     $TVNames = array();
     $q=$this->modx->db->query("SELECT a.id,a.name,a.default_text FROM ".$this->tmplvars_table." a,".$this->tv_tmpl_table." b WHERE a.id=b.tmplvarid AND b.templateid=".$template_id);
@@ -235,12 +235,23 @@ public function updateDoc($post)
 public function save2Doc($post)
 {
     $data = $this->prepareData($_POST);
+    if(isset($data['parent'])&&(int)$data['parent']!=0)
+    {
+        $data['menuindex']=$this->makeMenuIndex((int)$data['parent']);
+    }
     $edit = $this->api->create($data)->save();
     echo 'saved';
     die();
 }
 
-public function prepareData($tmp)
+protected function makeMenuIndex($parent){
+    $sql="SELECT MAX(menuindex) FROM ".$this->modx->getFullTableName($this->api->getTable())." WHERE parent='$parent'";
+    $q=$this->modx->db->getValue($this->modx->db->query($sql));
+    return $q ? ($q+1) : 1; 
+}
+
+
+protected function prepareData($tmp)
 {
     $template_id = isset($tmp['customtable'])?$tmp['customtable']:$tmp['template'];
     $tmp['template'] = $template_id;//fix - сбивается POST['template'] при смене виз.редактора
