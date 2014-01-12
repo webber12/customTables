@@ -1,0 +1,64 @@
+{
+    "DocLister":{
+        "controller": "onetable",
+        "table" : "reviews",
+        "api": [
+            "id",
+            "user",
+			"email",
+            "date",
+            "text",
+            "title",
+            "alias"
+        ],
+        "dateSource" : "date",
+		"display":"10",
+		"debug":"0",
+        "ignoreEmpty" : "1",
+        "idType":"documents"
+    },
+    "table": "reviews",
+    "class": "modReview",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=112&id=1&mode=edit&doc=",
+        "new":"index.php?a=112&id=1&mode=new"
+    },
+    "parentField": "",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "rules":{
+        "id" : "4"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "user":{
+            "name": "Пользователь",
+            "options": "field: 'user', width:85,editor:{type:'validatebox',options:{required:true}}"
+        },
+        "email":{
+            "name" :"E-mail",
+            "options" :"field: 'email',width:85,editor:{type:'validatebox',options:{required:true}}"
+        },
+        "date":{
+            "name": "Дата отзыва",
+            "options": "field:'date',width:100,align:'center',editor:{type:'validatebox',options:{required:true}}"
+        },
+        "title":{
+            "name" :"Заголовок",
+            "options" :"field: 'title',width:85,editor:{type:'validatebox',options:{required:true}}"
+        },
+		"text":{
+            "name": "Текст",
+            "options": "field:'text',width:280,align:'right',editor:{type:'textarea',options:{required:true}}"
+        },
+        "alias":{
+            "name" :"alias документа",
+            "options" :"field: 'alias',width:250,editor:{type:'validatebox',options:{required:true}}"
+        }
+    }
+}

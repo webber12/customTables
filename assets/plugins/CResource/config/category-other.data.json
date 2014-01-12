@@ -1,0 +1,47 @@
+{
+    "DocLister":{
+        "controller": "site_content_tags",
+        "api": [
+            "id",
+            "pagetitle",
+			"longtitle"
+        ],
+		"display":"10",
+		"debug":"0",
+        "tagsTV": "6",
+        "tagsData" : "static:26",
+        "idType": "parents",
+        "parents" : "23",
+        "debug" : 0,
+        "showNoPublish" : 1
+    },
+    "table": "site_content",
+    "class": "modResource",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&id=",
+        "new":"index.php?a=4"
+    },
+    "parentField": null,
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "rules":{
+        "template" : "6",
+        "id": "26"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "longtitle":{
+            "name": "SEO title",
+            "options": "field:'longtitle',width:280,align:'right',editor:{type:'validatebox'}"
+        },
+        "pagetitle":{
+            "name": "Заголовок",
+            "options": "field:'pagetitle',width:280,align:'right',editor:{type:'validatebox',options:{required:true}}"
+        }
+    }
+}

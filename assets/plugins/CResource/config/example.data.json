@@ -1,0 +1,65 @@
+{
+    "DocLister":{
+        "controller": "site_content",
+        "api": [
+            "id",
+            "pagetitle",
+			"longtitle",
+            "hidemenu",
+            "menuindex",
+            "parent",
+            "tv.share",
+            "template",
+            "tv.test"
+        ],
+		"display":"2",
+        "tvList":"share,test",
+		"debug":"0",
+        "idType":"documents"
+    },
+    "table": "site_content",
+    "class": "modResource",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&id=",
+        "new":"index.php?a=4"
+    },
+    "parentField": "parent",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "grid" : {
+        "keyw":{
+            "name": "SEO key",
+            "options": "field: 'tv_test', width:300,editor:{type:'validatebox'}"
+        },
+        "share":{
+            "name" :"SMO share",
+            "options" :"field: 'tv_share',width:100,editor:{type:'validatebox'}"
+        },
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:80"
+        },
+        "parent":{
+            "name":"parent",
+            "options":"field:'parent'"
+        },
+		"longtitle":{
+            "name": "longname Product",
+            "options": "field:'longtitle',width:280,align:'right',editor:{type:'validatebox',options:{required:true}}"
+        },
+        "pagetitle":{
+            "name": "name Product",
+            "options": "field:'pagetitle',width:280,align:'right',editor:{type:'validatebox',options:{required:true}}"
+        },
+        "menuindex":{
+            "name": "Menu index",
+            "options": "field:'menuindex',width:100,align:'center',editor:'numberbox'"
+        },
+        "hidemenu":{
+            "name": "Hide in menu",
+            "options": "field:'hidemenu',width:100,align:'center',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        }
+    }
+}

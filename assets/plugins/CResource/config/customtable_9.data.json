@@ -1,0 +1,66 @@
+{
+    "DocLister":{
+        "controller": "customtable",
+        "table" : "customtable_9",
+        "api": [
+            "id",
+            "pagetitle",
+            "date",
+            "published",
+            "price"
+        ],
+        "dateSource" : "createdon",
+        "dateFormat" : "%d.%m.%Y",
+        "display":"10",
+        "debug":"0",
+        "ignoreEmpty" : "1",
+        "idType":"parents"
+    },
+    "table": "customtable_9",
+    "class": "modCustomTables",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&customtable=9&id=",
+        "new":"index.php?a=4&customtable=9&pid="
+    },
+    "parentField": "parent",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "renameSearch": {
+        "/^search_(.*)$/": "1"
+    },
+    "rules":{
+        "template" : "7"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "pagetitle":{
+            "name": "Название",
+            "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
+        },
+        "price":{
+            "name": "Цена",
+            "options": "field: 'price',editor:{type:'validatebox',options:{required:true}}"
+        }
+    },
+    "searchFields" : {
+        "pricemin": {
+            "name" : "Цена от ",
+            "searchtype" : "egt",
+            "dbname" : "price"
+        },
+        "pricemax": {
+            "name":" до ",
+            "searchtype" : "elt",
+            "dbname" : "price"
+        },
+        "pagetitle": {
+            "name" : "Заголовок",
+            "searchtype" : "like"
+        }
+    }
+}

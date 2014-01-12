@@ -1,0 +1,68 @@
+{
+    "DocLister":{
+        "controller": "site_content",
+        "api": [
+            "id",
+            "pagetitle",
+			"longtitle",
+            "published",
+            "tv.view",
+            "tv.like_up",
+            "tv.like_down",
+			"date"
+        ],
+		"display":"10",
+        "tvList":"view,like_up,like_down",
+		"debug":"0",
+        "showNoPublish" : 1,
+        "idType":"documents"
+    },
+    "table": "site_content",
+    "class": "modResource",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&id=",
+        "new":"index.php?a=4&pid="
+    },
+    "parentField": "parent",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "rules":{
+        "id" : "2"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "like_down":{
+            "name": "Не нравится",
+            "options": "field: 'tv_like_down', width:85,editor:{type:'validatebox'}"
+        },
+        "like_up":{
+            "name" :"Нравится",
+            "options" :"field: 'tv_like_up',width:85,editor:{type:'validatebox'}"
+        },
+        "published":{
+            "name": "Опубликовать",
+            "options": "field:'published',width:100,align:'center',editor:{type:'checkbox',options:{on:'0',off:'1'}}"
+        },
+        "view":{
+            "name" :"Просмотров",
+            "options" :"field: 'tv_view',width:85,editor:{type:'validatebox'}"
+        },
+		"longtitle":{
+            "name": "SEO title",
+            "options": "field:'longtitle',width:280,align:'right',editor:{type:'validatebox'}"
+        },
+        "pagetitle":{
+            "name": "Заголовок",
+            "options": "field:'pagetitle',width:280,align:'right',editor:{type:'validatebox',options:{required:true}}"
+        },
+		"date":{
+            "name": "Date",
+            "options": "field: 'date',editor:{type:'validatebox',options:{required:true}}"
+        }
+    }
+}

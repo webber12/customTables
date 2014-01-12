@@ -1,0 +1,7 @@
+{
+    "debug" : "0",
+    "tpl" : "@CODE:<li><a href=\"[+url+]\" title=\"[+title+]\">[+title+]</a></li>",
+    "tplCurrent" : "@CODE:<li class=\"active\"><span>[+title+]</span></li>",
+    "ownerTPL" : "@CODE:<nav class=\"breadcrumbs\"><ul class=\"breadcrumb\">[+crumbs.wrap+]</ul></nav>",
+    "sysKey" : "crumbs"
+}
