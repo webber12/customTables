@@ -43,23 +43,19 @@
         }
     },
     "searchFields" : {
-        "idmin": {
+        "ct_idmin": {
             "name" : "ID от",
             "searchtype" : "egt",
             "dbname" : "id"
         },
-        "idmax": {
+        "ct_idmax": {
             "name":"ID до",
             "searchtype" : "elt",
             "dbname" : "id"
         },
-        "pagetitle": {
+        "ct_pagetitle": {
             "name": "Заголовок",
             "searchtype": "like"
-        },
-        "date":{
-            "name": "Date",
-            "options": "field: 'date', width:100,editor:{type:'datebox',options:{}}"
         }
     }
 }

@@ -91,9 +91,14 @@ class CRdata extends CRcore{
         if(is_array($filter_fields) && !empty($filter_fields)){
             foreach($filter_fields as $key => $value){
                 if($value != ''){
+                    $tmp=explode("_", $key);
+                    $filter_prefix=$tmp[0];
+                    unset($tmp[0]);
+                    $filter_name=implode("_",$tmp);
+                    unset($tmp);
                     $type=$this->getOptions('searchtype', 'eq', $search_fields[$key]);
-                    $name=$this->getOptions('dbname', $key, $search_fields[$key]);
-                    $filters[] = 'ct:'.$name.':'.$type.':'.$value;
+                    $name=$this->getOptions('dbname', $filter_name, $search_fields[$key]);
+                    $filters[] = $filter_prefix.':'.$name.':'.$type.':'.$value;
                 }
             }
         }

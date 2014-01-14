@@ -48,17 +48,17 @@
         }
     },
     "searchFields" : {
-        "pricemin": {
+        "ct_pricemin": {
             "name" : "Цена от ",
             "searchtype" : "egt",
             "dbname" : "price"
         },
-        "pricemax": {
+        "ct_pricemax": {
             "name":" до ",
             "searchtype" : "elt",
             "dbname" : "price"
         },
-        "pagetitle": {
+        "ct_pagetitle": {
             "name" : "Заголовок",
             "searchtype" : "like"
         }
