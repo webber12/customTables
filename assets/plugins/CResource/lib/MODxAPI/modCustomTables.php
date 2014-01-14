@@ -147,11 +147,11 @@ class modCustomTables extends autoTable{
         if($this->modxConfig('friendly_urls')){
             $flag = false;
             $_alias = $this->modx->db->escape($alias);
-            if((!$this->modxConfig('allow_duplicate_alias') && !$this->modxConfig('use_alias_path')) || ($this->modxConfig('allow_duplicate_alias') && $this->modxConfig('use_alias_path'))){
+        /*    if((!$this->modxConfig('allow_duplicate_alias') && !$this->modxConfig('use_alias_path')) || ($this->modxConfig('allow_duplicate_alias') && $this->modxConfig('use_alias_path'))){
                 $flag = $this->modx->db->getValue($this->query("SELECT id FROM {$this->makeTable($this->table)} WHERE alias='{$_alias}' AND parent={$this->get('parent')} LIMIT 1"));
-            }else{
+            }else{*/
                 $flag = $this->modx->db->getValue($this->query("SELECT id FROM {$this->makeTable($this->table)} WHERE alias='{$_alias}' LIMIT 1"));
-            }
+        /*    }*/
             if(($flag && $this->newDoc) || (!$this->newDoc && $flag && $this->id != $flag)){
                 $suffix = substr($alias, -2);
                 if(preg_match('/-(\d+)/',$suffix,$tmp) && isset($tmp[1]) && (int)$tmp[1]>1){
