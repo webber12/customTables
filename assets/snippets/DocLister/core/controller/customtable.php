@@ -89,9 +89,10 @@ class customtableDocLister extends DocLister
                     $item[$this->getCFGDef("sysKey", "dl") . '.iteration'] = $i; //[+iteration+] - Number element. Starting from zero
 
                     $date = $this->getCFGDef('dateSource', 'pub_date');
-                    $date = isset($item[$date]) ? $item[$date] + $this->modx->config['server_offset_time'] : '';
-                    if ($date != '' && $this->getCFGDef('dateFormat', '%d.%b.%y %H:%M') != '') {
-                        $item[$this->getCFGDef("sysKey", "dl") . '.date'] = strftime($this->getCFGDef('dateFormat', '%d.%b.%y %H:%M'), $date);
+                    $item['date'] = (isset($item[$date]) && $date != 'createdon' && $item[$date] != 0 && $item[$date] == (int)$item[$date]) ? $item[$date] : $item['createdon'];
+                    $item['date'] = $item['date'] + $this->modx->config['server_offset_time'];
+                    if ($this->getCFGDef('dateFormat', '%d.%b.%y %H:%M') != '') {
+                        $item['date'] = strftime($this->getCFGDef('dateFormat', '%d.%b.%y %H:%M'), $item['date']);
                     }
 
                     $class = array();
@@ -188,8 +189,11 @@ class customtableDocLister extends DocLister
             if(!empty($where)){
                 $where = "WHERE ".implode(" AND ",$where);
             }
+			
+			$sort = $this->SortOrderSQL("if(ct.pub_date=0,ct.createdon,ct.pub_date)");
+			
             $limit = $this->LimitSQL($this->getCFGDef('queryLimit', 0));
-            $rs = $this->dbQuery("SELECT ct.* FROM {$this->table} ct {$where} {$this->SortOrderSQL($this->getPK())} {$limit}");
+            $rs = $this->dbQuery("SELECT ct.* FROM {$this->table} ct {$where} {$sort} {$limit}");
 
             $rows = $this->modx->db->makeArray($rs);
             $out = array();
