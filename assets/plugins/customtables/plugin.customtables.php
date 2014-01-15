@@ -9,33 +9,29 @@ $oT = new CustomTables($modx, $params);
 
 $evt = &$modx->event;
 $output = '';
-switch($evt->name){
-    case 'OnTempFormSave':{
+switch ($evt->name) {
+    case 'OnTempFormSave':
         if(isset($evt->params['id']) && in_array($evt->params['id'], $oT->tmpl_ids_array)){
             $oT->addTable($evt->params['id']);
             $oT->updateColumns($evt->params['id']);
         }
         break;
-    }
-    case 'OnTVFormSave':{
+    case 'OnTVFormSave':
         $oT->createColumns($evt->params['id']);
         break;
-    }
-    case 'OnBeforeTVFormDelete':{
+    case 'OnBeforeTVFormDelete':
         $oT->deleteColumn($evt->params['id']);
         break;
-    }
-    case 'OnBeforeDocFormSave':{
-        if(isset($_POST['template']) && $oT->checkTemplate($_POST['template'])){
+    case 'OnBeforeDocFormSave':
+        if (isset($_POST['template']) && $oT->checkTemplate($_POST['template'])) {
             $oT->api->setTable('customtable_'.$_POST['template']);
-            if($evt->params['mode'] == 'new'){
+            if ($evt->params['mode'] == 'new') {
                 $oT->save2Doc($_POST);
             }
         }
         break;
-    }
-    case 'OnDocFormPrerender':{
-        if(isset($_REQUEST['customtable'])){
+    case 'OnDocFormPrerender':
+        if (isset($_REQUEST['customtable'])) {
             $script = '<script>
                 window.addEvent("domready", function(){
                     document.getElementById("template").setProperty("name","template3");
@@ -46,11 +42,10 @@ switch($evt->name){
             $output .= '<input type="hidden" name="customtable" value="'.$_REQUEST['customtable'].'">';
         }
         break;
-    }
-    case 'OnManagerPageInit':{
-        if($action == 27 && isset($_REQUEST['customtable'])){
+    case 'OnManagerPageInit':
+        if ($action == 27 && isset($_REQUEST['customtable'])) {
             global $_lang, $_style, $which_editor, $use_editor;
-            if($oT->checkTemplateById($_REQUEST['id'], $_REQUEST['customtable'])){
+            if ($oT->checkTemplateById($_REQUEST['id'], $_REQUEST['customtable'])) {
                 $tbl = (int)$_REQUEST['customtable'];
                 $onetbl = $modx->getFullTableName('customtable_'.$tbl);
                 $manager_theme = $modx->config['manager_theme'];
@@ -60,9 +55,9 @@ switch($evt->name){
                 die();
             }
         }
-        if($action == 5 && isset($_REQUEST['customtable']) && $_POST['mode'] == '27'){
-            if(isset($_REQUEST['customtable']) && $oT->checkTemplate($_REQUEST['customtable'])){
-                if (!$modx->hasPermission('save_document')){
+        if ($action == 5 && isset($_REQUEST['customtable']) && $_POST['mode'] == '27') {
+            if (isset($_REQUEST['customtable']) && $oT->checkTemplate($_REQUEST['customtable'])) {
+                if (!$modx->hasPermission('save_document')) {
                     include_once MODX_MANAGER_PATH."includes/error.class.inc.php";
                     $err = new errorHandler;
                     $err->setError(3,"You don't have enough privileges for this action!");
@@ -74,7 +69,6 @@ switch($evt->name){
             }
         }
         break;
-    }
     default:
         break;
 }
