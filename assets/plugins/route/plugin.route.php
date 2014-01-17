@@ -1,7 +1,7 @@
 <?php
 if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
 /**
- * Onetable Route
+ * CustomTables Route
  *
  * Плагин для кастомной маршрутизации
  *
@@ -10,7 +10,7 @@ if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
  * @version     0.1
  *
  * @internal        @events         OnPageNotFound,OnLoadWebDocument,OnLoadWebPageCache
- * @internal        @properties     &docid=ID документа;int;2 &tablename=Имя таблицы;text;content &fieldname=Уникальное поле в таблице;text;id &prefix=Префикс плейсхолдеров документа;text;custom &pkname=PrimaryKey;text;id &sendparent=При просмотре документа перенаправлять на родителя?;list;true,false;true
+ * @internal        @properties     &docid=ID документов через запятую;text; &tablename=Имя таблицы;text;content &fieldname=Уникальное поле в таблице;text;id &prefix=Префикс плейсхолдеров документа;text;custom &pkname=PrimaryKey;text;id &sendparent=При просмотре документа перенаправлять на родителя?;list;true,false;true
  */
 
 if(!function_exists(removeSuffix)){
@@ -23,29 +23,36 @@ if(!function_exists(removeSuffix)){
 
 switch($modx->event->name){
     case 'OnPageNotFound':{
-        $brand = '';
-        $q = explode('/', ltrim($_SERVER['REQUEST_URI'], '/'));
-        $url = $modx->makeURL($docid);
-        //$url = rtrim($url, $modx->config['friendly_url_suffix']);
-        $url = removeSuffix($url);
-        $url = ltrim($url, '/');
-        $tmp = explode('/', $url);
-        if(!isset($modx->customDocID) && count($q)==(count($tmp)+1)){
-        $endKey = end($q);
-            //$find = rtrim($endKey, $modx->config['friendly_url_suffix']);
-            $find = removeSuffix($endKey);
-            $sql="SELECT id FROM ".$modx->getFullTableName($tablename)." WHERE `".$fieldname."`='".$modx->db->escape($find)."'";
+        $target_id='';
+        $_alias='';
+        $q = explode('/', ltrim(removeSuffix($_SERVER['REQUEST_URI']), '/'));
+        $_alias=end($q);
+        array_pop($q);
+        $docids=explode(',', trim($docid));
+        foreach ($docids as $_docid) {
+            $_url=$modx->makeUrl($_docid);
+            $_url=removeSuffix($_url);
+            $_url = ltrim($_url, '/');
+            $_tmp = explode('/', $_url);
+            if($_tmp == $q){
+                $target_id = $_docid;
+            }
+        }
+
+        if ($target_id != '' && $_alias != '') {
+            $sql = "SELECT id FROM ".$modx->getFullTableName($tablename)." WHERE `".$fieldname."`='".$modx->db->escape($_alias)."'";
             $q = $modx->db->query($sql);
-            if($modx->db->getRecordCount($q)==1 && $find.$modx->config['friendly_url_suffix'] == $endKey){
+            if ($modx->db->getRecordCount($q) == 1) {
                 $modx->customDocID = (int)$modx->db->getValue($q);
-                $modx->sendForward($docid);
+                $modx->sendForward($target_id);
             }
         }
         break;
     }
     case 'OnLoadWebDocument':
     case 'OnLoadWebPageCache':{
-        if($modx->documentObject['id']==$docid){
+        $docids=explode(',', trim($docid));
+        if(in_array($modx->documentObject['id'],$docids)){
             $flag = true;
             if(isset($modx->customDocID) && (int)$modx->customDocID>0){
                 $q = $modx->db->query("SELECT * FROM ".$modx->getFullTableName($tablename)." WHERE `".$pkname."`='".$modx->customDocID."'");
