@@ -1,0 +1,59 @@
+{
+    "DocLister":{
+        "controller": "customtable",
+        "table" : "customtable_10",
+        "api": [
+            "id",
+            "pagetitle"
+        ],
+        "dateSource" : "createdon",
+        "dateFormat" : "%d.%m.%Y",
+        "display":"10",
+        "debug":"0",
+        "ignoreEmpty" : "1",
+        "idType":"parents"
+    },
+    "table": "customtable_10",
+    "class": "modCustomTables",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&customtable=10&id=",
+        "new":"index.php?a=4&customtable=10&pid="
+    },
+    "parentField": "parent",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "renameSearch": {
+        "/^search_(.*)$/": "1"
+    },
+    "rules":{
+        "template" : "7"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "pagetitle":{
+            "name": "Название",
+            "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
+        }
+    },
+    "searchFields" : {
+        "ct_idmin": {
+            "name" : "ID от",
+            "searchtype" : "egt",
+            "dbname" : "id"
+        },
+        "ct_idmax": {
+            "name":"ID до",
+            "searchtype" : "elt",
+            "dbname" : "id"
+        },
+        "ct_pagetitle": {
+            "name": "Заголовок",
+            "searchtype": "like"
+        }
+    }
+}
