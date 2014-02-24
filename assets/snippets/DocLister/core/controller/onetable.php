@@ -100,7 +100,7 @@ class onetableDocLister extends DocLister
 
                     $class = array();
                     $class[] = ($i % 2 == 0) ? 'odd' : 'even';
-                    if ($i == 0) {
+                    if ($i == 1) {
                         $subTpl = $this->getCFGDef('tplFirst', $tpl);
                         $class[] = 'first';
                     }
@@ -190,7 +190,9 @@ class onetableDocLister extends DocLister
                 $where = "WHERE ".implode(" AND ",$where);
             }
             $limit = $this->LimitSQL($this->getCFGDef('queryLimit', 0));
-            $rs = $this->dbQuery("SELECT * FROM {$this->table} {$where} {$this->SortOrderSQL($this->getPK())} {$limit}");
+			$fields = $this->getCFGDef('selectFields', '*');
+			$group = $this->getGroupSQL($this->getCFGDef('groupBy', ''));
+            $rs = $this->dbQuery("SELECT {$fields} FROM {$this->table} {$where} {$group} {$this->SortOrderSQL($this->getPK())} {$limit}");
 
             $rows = $this->modx->db->makeArray($rs);
             $out = array();
@@ -204,13 +206,27 @@ class onetableDocLister extends DocLister
     // @abstract
     public function getChildrenCount()
     {
-        $where = $this->getCFGDef('addWhereList', '');
-        $fields = "count(`{$this->getPK()}`) as `count`";
-        if(!empty($where)){
-            $where = "WHERE ".$where;
+        $out = 0;
+        $sanitarInIDs = $this->sanitarIn($this->IDs);
+        if ($sanitarInIDs != "''" || $this->getCFGDef('ignoreEmpty', '0')) {
+            $where = $this->getCFGDef('addWhereList', '');
+            if ($where != '') {
+                $where = array($where);
+            }
+            if($sanitarInIDs != "''"){
+                $where[] = "{$this->getPK()} IN ({$sanitarInIDs})";
+            }
+            if(!empty($where)){
+                $where = "WHERE ".implode(" AND ",$where);
+            }
+            $limit = $this->LimitSQL($this->getCFGDef('queryLimit', 0));
+            $fields = $this->getCFGDef('selectFields', '*');
+            $group = $this->getGroupSQL($this->getCFGDef('groupBy', ''));
+            $this->dbQuery("SELECT SQL_CALC_FOUND_ROWS {$fields} FROM {$this->table} {$where} {$group} {$this->SortOrderSQL($this->getPK())} {$limit}");
+            $rs = $this->dbQuery("SELECT FOUND_ROWS();");
+            $out = $this->modx->db->getValue($rs);
         }
-        $rs = $this->dbQuery("SELECT {$fields} FROM {$this->table} {$where}");
-        return $this->modx->db->getValue($rs);
+        return $out;
     }
 
     public function getChildernFolder($id)

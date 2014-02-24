@@ -743,7 +743,7 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                 $limit = $modx->db->getRecordCount($rs);
 */
 				$otTvs=$oT->getTVFromContent($content,$tbl);
-				
+
                 if (is_array($otTvs)&&count($otTvs) > 0) {
                     echo "\t".'<table style="position:relative;" border="0" cellspacing="0" cellpadding="3" width="96%">'."\n";
                     require_once(MODX_MANAGER_PATH.'includes/tmplvars.inc.php');

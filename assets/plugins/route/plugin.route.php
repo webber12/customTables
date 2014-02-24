@@ -14,66 +14,65 @@ if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
  */
 
 if(!function_exists(removeSuffix)){
-    function removeSuffix($url){
+    function removeSuffix($url, $folder='0'){
         global $modx;
-        $pos = strripos($url, $modx->config['friendly_url_suffix']);
-        return ($pos===false) ? rtrim($url) : substr($url, 0, $pos);
+        $suffix = ($folder == '1' && $modx->config['make_folders'] == '1') ? '/' : $modx->config['friendly_url_suffix'];
+        $pos = strripos($url, $suffix);
+        return ($pos === false) ? rtrim($url) : substr($url, 0, $pos);
     }
 }
 
 switch($modx->event->name){
     case 'OnPageNotFound':{
-        $target_id='';
-        $_alias='';
+        $_alias = '';
         $q = explode('/', ltrim(removeSuffix($_SERVER['REQUEST_URI']), '/'));
-        $_alias=end($q);
-        array_pop($q);
-        $docids=explode(',', trim($docid));
-        foreach ($docids as $_docid) {
-            $_url=$modx->makeUrl($_docid);
-            $_url=removeSuffix($_url);
-            $_url = ltrim($_url, '/');
-            $_tmp = explode('/', $_url);
-            if($_tmp == $q){
-                $target_id = $_docid;
+        $_alias = array_pop($q);
+        $parent_alias = implode('/', $q);
+        if ($modx->config['use_alias_path'] == 1) {;
+            if (isset($modx->documentListing[$parent_alias])) {
+                $pid = $modx->documentListing[$parent_alias];
             }
+        } else {
+                $pid = $modx->documentListing[$parent_alias];
         }
-
-        if ($target_id != '' && $_alias != '') {
-            $sql = "SELECT id FROM ".$modx->getFullTableName($tablename)." WHERE `".$fieldname."`='".$modx->db->escape($_alias)."'";
-            $q = $modx->db->query($sql);
-            if ($modx->db->getRecordCount($q) == 1) {
-                $modx->customDocID = (int)$modx->db->getValue($q);
-                $modx->sendForward($target_id);
+        if (isset($pid)) {
+            $parent_template = $modx->db->getValue($modx->db->select('template', $modx->getFullTableName('site_content'), 'id=' . $pid));
+            if ($parent_template && $parent_template == $parent_tpl_id) {
+                $sql= "SELECT " . $pkname . " FROM " . $modx->getFullTableName($tablename) . " WHERE `" . $fieldname . "`='" . $_alias . "'";
+                $res = $modx->db->query($sql);
+                if ($modx->db->getRecordCount($res) == 1) {
+                    $custom_id = (int)$modx->db->getValue($res);
+                    $modx->customDocID = $custom_id;
+                    $modx->sendForward($target_doc_id);
+                }
             }
         }
         break;
     }
     case 'OnLoadWebDocument':
     case 'OnLoadWebPageCache':{
-        $docids=explode(',', trim($docid));
-        if(in_array($modx->documentObject['id'],$docids)){
+        if ($modx->documentObject['id'] == $target_doc_id) {
             $flag = true;
-            if(isset($modx->customDocID) && (int)$modx->customDocID>0){
-                $q = $modx->db->query("SELECT * FROM ".$modx->getFullTableName($tablename)." WHERE `".$pkname."`='".$modx->customDocID."'");
+            if (isset($modx->customDocID) && (int)$modx->customDocID>0) {
+                $q = $modx->db->query("SELECT * FROM " . $modx->getFullTableName($tablename) . " WHERE `" . $pkname . "`='" . $modx->customDocID . "'");
                 $flag = ($modx->db->getRecordCount($q)==1);
-            }else{
+            } else {
                 $flag = false;
             }
-            if($flag){
+            if ($flag) {
                 $out = $modx->db->getRow($q);
                 $plh = array();
-                foreach($out as $key => $data){
-                    $plh[$prefix."_".$key] = $data;
+                foreach ($out as $key => $data) {
+                    $plh[$prefix . "_" . $key] = $data;
                 }
-                $modx->customDocID = (isset($plh[$prefix."_".$pkname])) ? $plh[$prefix."_".$pkname] : false;
-                $modx->documentObject = array_merge($modx->documentObject,$plh);
-            }else{
+                $modx->customDocID = (isset($plh[$prefix . "_" . $pkname])) ? $plh[$prefix . "_" . $pkname] : false;
+                $modx->documentObject = array_merge($modx->documentObject, $plh);
+            } else {
                 $modx->customDocID = false;
-                if($sendparent=='true'){
+                if ($sendparent=='true') {
                     $url = $modx->makeUrl($modx->documentObject['parent'], '', '', 'full');
                     $modx->sendRedirect($url, 0, 'REDIRECT_HEADER', 'HTTP/1.1 301 Moved Permanently');
-                }else{
+                } else {
                     $modx->sendErrorPage();
                 }
             }

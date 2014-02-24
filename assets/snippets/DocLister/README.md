@@ -5,9 +5,11 @@
 Правила для обработки информации описаны в контроллерах.
 Главный контроллер - **site_content** который определяет связь основных документов site_content с данными в TV-параметрах
 
-На базе класса DocLister сформировано 2 сниппета:
+На базе класса DocLister сформировано 4 сниппета:
 * **DocLister** - основной сниппет для вывода информации по принципу сниппетов Ditto и CatalogView
-* **DLcrumbs** - для формирования хлебных крошек по принципу сниппета Breadcrumbs.
+* **DLcrumbs** - для формирования хлебных крошек по принципу сниппета Breadcrumbs
+* **DLglossary** - для фильтрации документов по первому символу в определенном поле
+* **DLvaluelist** - для замены сниппета DropDownDocs
 
 ### Полезные ссылки
 ---------
@@ -25,7 +27,7 @@
 			<br />
 			Agel Nash
 		</h4>
-		<a href="http://artdevue.com">http://agel-nash.ru</a><br />
+		<a href="http://agel-nash.ru">http://agel-nash.ru</a><br />
 		<br />
 		<strong>ICQ</strong>: 8608196<br />
 		<strong>Skype</strong>: agel.nash<br />
@@ -57,6 +59,8 @@
 <h4>За донат<br /><br /></h4>
 <ul>
 <li><a href="https://github.com/Pathologic">@Pathologic</a></li>
+<li><a href="http://modx.im/profile/Shin/">Shin</a></li>
+<li><a href="https://github.com/webber12">@webber12</a></li>
 </ul>
 </td>
 <td valign="top">

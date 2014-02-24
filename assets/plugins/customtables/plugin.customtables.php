@@ -26,7 +26,13 @@ switch ($evt->name) {
         if (isset($_POST['template']) && $oT->checkTemplate($_POST['template'])) {
             $oT->api->setTable('customtable_'.$_POST['template']);
             if ($evt->params['mode'] == 'new') {
-                $oT->save2Doc($_POST);
+                $new=$oT->save2Doc($_POST);
+                if ($new) {
+                    $oT->modx->clearCache();
+                    header('Location:index.php?a=27&customtable=' . $_REQUEST['customtable'] . '&id=' . $new);
+                    echo $new . 'saved';
+                }
+                die();
             }
         }
         break;
@@ -65,6 +71,9 @@ switch ($evt->name) {
                 }
                 $oT->api->setTable('customtable_'.$_REQUEST['customtable']);
                 $oT->updateDoc($_POST);
+                $oT->modx->clearCache();
+                header('Location:index.php?a=27&customtable=' . $_REQUEST['customtable'] . '&id=' . (int)$_POST['id']);
+				echo 'updated';
                 die();
             }
         }

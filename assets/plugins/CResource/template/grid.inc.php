@@ -32,8 +32,8 @@
     }
 </style>
 <div id="tt" class="easyui-tabs" style="height:auto;">
-    <div title="Document" style="padding:10px" data-options="closable:false" >
-        <table class="easyui-datagrid" id="dataGrid" title="Basic DataGrid"
+    <div title="Документы" style="padding:10px" data-options="closable:false" >
+        <table class="easyui-datagrid" id="dataGrid" title="Список документов"
                data-options="idField:'<?=$idField;?>',toolbar:'#tbar',singleSelect:true,pagination:true">
             <thead>
             <tr>
@@ -72,7 +72,7 @@
         }
         <?=$jqname;?>('#tt').tabs('add',{
             title: title,
-            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:500px"></iframe>',
+            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:800px"></iframe>',
             height: '500px',
             closable: true
         });

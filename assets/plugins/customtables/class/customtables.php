@@ -229,19 +229,16 @@ class CustomTables
     {
         $data = $this->prepareData($_POST);
         $edit = $this->api->edit($_POST['id'])->fromArray($data)->save();
-        echo 'updated';
-        die();
     }
 
     public function save2Doc($post)
     {
         $data = $this->prepareData($_POST);
-        if (isset($data['parent'])&&(int)$data['parent']!=0) {
-            $data['menuindex']=$this->makeMenuIndex((int)$data['parent']);
+        if (isset($data['parent']) && (int)$data['parent'] != 0) {
+            $data['menuindex'] = $this->makeMenuIndex((int)$data['parent']);
         }
         $edit = $this->api->create($data)->save();
-        echo 'saved';
-        die();
+		return $edit; //new doc custom id
     }
 
     protected function makeMenuIndex($parent)
@@ -259,7 +256,7 @@ class CustomTables
         $data = array();
         foreach ($tmp as $k=>$v) {
             if (strpos($k,'tv') === 0) {
-                $k=str_replace('tv','',$k);
+                $k = str_replace('tv', '', $k);
                 if (isset($TVNames[$k])) {
                     $data[$TVNames[$k]['name']] = is_array($v)?implode('||',$v):($v==''?$TVNames[$k]['default_text']:$v);	
                 } else {
@@ -286,7 +283,7 @@ class CustomTables
         $tvs = array();
         $q = $this->modx->db->query("SELECT * FROM ".$this->tmplvars_table." a,".$this->tv_tmpl_table." b WHERE a.id=b.tmplvarid AND b.templateid=".$template_id." ORDER BY b.rank ASC");
         while ($row=$this->modx->db->getRow($q)) {
-            if (isset($content[$row['name']])) {
+            if (isset($content[$row['name']])||is_null($content[$row['name']])) {
                 $tvs[$row['name']] = $row;
                 $tvs[$row['name']]['value'] = $content[$row['name']];
             }

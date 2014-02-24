@@ -117,7 +117,7 @@ class summary_DL_Extender extends extDocLister
         return $this->textTrunc($posttext, $minimum_length + $length_offset);
     }
 
-    public function textTrunc($string, $limit, $break = ". ")
+    public function textTrunc($string, $limit, $break = " ")
     {
         // Original PHP code from The Art of Web: www.the-art-of-web.com
 
