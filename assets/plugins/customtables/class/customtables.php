@@ -297,7 +297,7 @@ class CustomTables
 
         foreach ($this->tmpl_ids_array as $tmpl_id) {
             $cacheRefreshTime = 0;
-            $field = $tmpl_id == '12' ? 'published' : 'paid';
+            //$field = $tmpl_id == '12' ? 'published' : 'paid';
             $this->api->setTable('customtable_' . $tmpl_id);
             @include $this->modx->config["base_path"] . "assets/cache/customCacheEvent.customtable_" . $tmpl_id . ".php";
             if ($cacheRefreshTime <= $timeNow && $cacheRefreshTime != 0) {
