@@ -5,6 +5,8 @@ class modCustomTables extends autoTable{
     protected $table = "site_content";
     protected $alias_field = "alias";
 
+	protected $cache_path = 'assets/cache/';
+
     private $alias_table=array('"'=>'_',"'"=>'_',' '=>'_','.'=>'_',','=>'_','а'=>'a','б'=>'b','в'=>'v',
 		'г'=>'g','д'=>'d','е'=>'e','ё'=>'e','ж'=>'zh','з'=>'z','и'=>'i','й'=>'y','к'=>'k',
 		'л'=>'l','м'=>'m','н'=>'n','о'=>'o','п'=>'p','р'=>'r','с'=>'s','т'=>'t','у'=>'u',
@@ -27,6 +29,9 @@ class modCustomTables extends autoTable{
             if($this->pkName != $item['Field']){
                 $this->default_field[$item['Field']] = $item['Default'];
             }
+        }
+        if (!is_file($this->modxConfig('base_path') . $this->cache_path . 'customCacheEvent.' . $this->table . '.php')) {
+            $this->saveCacheEventTime(0);
         }
     }
 
@@ -97,10 +102,14 @@ class modCustomTables extends autoTable{
             $this->query($SQL);
         }
 
-        if($this->newDoc) $this->id = $this->modx->db->getInsertId();
-        if($clearCache){
+        if ($this->newDoc) $this->id = $this->modx->db->getInsertId();
+        if ($clearCache) {
             $this->clearCache($fire_events);
         }
+        if ($this->set['pub_date'] != '0' || $this->set['unpub_date'] != '0' ) {
+            $this->updateCacheEventTime();
+        }
+
         return $this->id;
     }
 
@@ -174,6 +183,48 @@ class modCustomTables extends autoTable{
             if($key == 'pub_date' && $time > time()){
                 $this->set('published','0');
             }
+        }
+    }
+    public function updateCacheEventTime()
+    {
+        $timeNow = time() + $this->modxConfig('server_offset_time');
+        $timesArr = array ();
+        $SQL = "SELECT MIN(pub_date) AS minpub FROM {$this->makeTable($this->table)} WHERE pub_date > {$timeNow}";
+        if (@ !$result = $this->query($SQL)) {
+            $this->modx->messageQuit("Failed to find publishing timestamps", $SQL);
+        }
+        $tmpRow = $this->modx->db->getRow($result);
+        $minpub = $tmpRow['minpub'];
+        if ($minpub != NULL) {
+            $timesArr[] = $minpub;
+        }
+
+        $SQL = "SELECT MIN(unpub_date) AS minunpub FROM {$this->makeTable($this->table)} WHERE unpub_date>{$timeNow}";
+        if (@ !$result= $this->modx->db->query($SQL)) {
+            $this->modx->messageQuit("Failed to find publishing timestamps", $SQL);
+        }
+        $tmpRow = $this->modx->db->getRow($result);
+        $minunpub = $tmpRow['minunpub'];
+        if ($minunpub != NULL) {
+            $timesArr[] = $minunpub;
+        }
+        if (count($timesArr) > 0) {
+            $nextevent = min($timesArr);
+        } else {
+            $nextevent = 0;
+        }
+            $this->saveCacheEventTime($nextevent);
+    }
+
+    public function saveCacheEventTime($time = 0)
+    {
+        $tmp = "<?php\n" . '$cacheRefreshTime=' . $time . ';' . "\n?>";
+        $fp= @ fopen($this->modxConfig('base_path') . $this->cache_path . 'customCacheEvent.' . $this->table . '.php', "wb");
+        if ($fp) {
+            @ flock($fp, LOCK_EX);
+            @ fwrite($fp,  $tmp);
+            @ flock($fp, LOCK_UN);
+            @ fclose($fp);
         }
     }
 

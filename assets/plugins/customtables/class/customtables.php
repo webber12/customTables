@@ -288,7 +288,38 @@ class CustomTables
                 $tvs[$row['name']]['value'] = $content[$row['name']];
             }
         }
-        return $tvs;	
+        return $tvs;
     }
+
+    public function checkCacheEvents($field = 'published')
+    {
+        $timeNow= time() + $this->modx->config['server_offset_time'];
+
+        foreach ($this->tmpl_ids_array as $tmpl_id) {
+            $cacheRefreshTime = 0;
+            $field = $tmpl_id == '12' ? 'published' : 'paid';
+            $this->api->setTable('customtable_' . $tmpl_id);
+            @include $this->modx->config["base_path"] . "assets/cache/customCacheEvent.customtable_" . $tmpl_id . ".php";
+            if ($cacheRefreshTime <= $timeNow && $cacheRefreshTime != 0) {
+                // now, check for documents that need publishing
+                $table = $this->modx->getFullTableName("customtable_" . $tmpl_id);
+                $sql = "UPDATE {$table} SET {$field}=1, publishedon=" . time() . " WHERE " . $table.".pub_date <= {$timeNow} AND " . $table . ".pub_date != 0 AND {$field} = 0";
+                if (@ !$result= $this->modx->db->query($sql)) {
+                    $this->modx->messageQuit("Execution of a query to the database failed", $sql);
+                }
+                // now, check for documents that need un-publishing
+                $sql= "UPDATE {$table} SET {$field}=0, publishedon=0 WHERE " . $table . ".unpub_date <= {$timeNow} AND " . $table . ".unpub_date != 0 AND {$field} = 1";
+                if (@ !$result= $this->modx->db->query($sql)) {
+                    $this->modx->messageQuit("Execution of a query to the database failed", $sql);
+                }
+                
+                $this->api->updateCacheEventTime();
+                
+                // clear the cache
+                $this->modx->clearCache();
+            }
+        }
+    }
+
 
 }//end class

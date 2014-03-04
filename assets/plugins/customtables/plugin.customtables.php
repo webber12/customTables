@@ -73,10 +73,13 @@ switch ($evt->name) {
                 $oT->updateDoc($_POST);
                 $oT->modx->clearCache();
                 header('Location:index.php?a=27&customtable=' . $_REQUEST['customtable'] . '&id=' . (int)$_POST['id']);
-				echo 'updated';
+                echo 'updated';
                 die();
             }
         }
+        break;
+    case 'OnWebPageInit':
+        $oT->checkCacheEvents();
         break;
     default:
         break;
