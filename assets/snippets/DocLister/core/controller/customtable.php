@@ -185,6 +185,12 @@ class customtableDocLister extends DocLister
             if($sanitarInIDs != "''"){
                 $where[] = "{$this->getPK()} IN ({$sanitarInIDs})";
             }
+			if($this->getCFGDef('showNoPublish', 0)){
+			}
+			else{
+				$where[] = "ct.deleted=0";
+				$where[] = "ct.published=1";
+			}
 
             if(!empty($where)){
                 $where = "WHERE ".implode(" AND ",$where);

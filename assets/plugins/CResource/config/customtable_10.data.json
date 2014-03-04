@@ -4,14 +4,22 @@
         "table" : "customtable_10",
         "api": [
             "id",
-            "pagetitle"
+            "pagetitle",
+			"region",
+			"user",
+			"vid",
+			"square",
+			"price",
+			"currency",
+			"published",
+			"paid",
+			"views"
         ],
-        "dateSource" : "createdon",
-        "dateFormat" : "%d.%m.%Y",
         "display":"10",
         "debug":"0",
         "ignoreEmpty" : "1",
-        "idType":"parents"
+        "idType":"parents",
+		"showNoPublish":"1"
     },
     "table": "customtable_10",
     "class": "modCustomTables",
@@ -38,18 +46,66 @@
         "pagetitle":{
             "name": "Название",
             "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
+        },
+		"region":{
+            "name": "regId",
+            "options": "field: 'region', width:70,editor:{type:'combobox',options:{required:true, valueField: 'label', textField: 'value', data:[{'label':'37','value':'Минск'},{'label':'38','value':'Брест'},{'label':'39','value':'Витебск'},{'label':'40','value':'Гомель'},{'label':'41','value':'Гродно'},{'label':'42','value':'Могилев'}]}}"
+        },
+		"user":{
+            "name": "userId",
+            "options": "field: 'user', width:40,editor:{type:'numberbox',options:{required:true,min:0}}"
+        },
+		"vid":{
+            "name": "Вид",
+            "options": "field: 'vid', width:70, editor:{type:'combobox',options:{required:true, valueField: 'label', textField: 'value',  data:[{'label':'1','value':'Спрос'},{'label':'2','value':'Предл'}]}}"
+        },
+		"square":{
+            "name": "S",
+            "options": "field: 'square', width:50,editor:{type:'validatebox'}"
+        },
+		"price":{
+            "name": "Цена",
+            "options": "field: 'price', width:50,editor:{type:'validatebox'}"
+        },
+		"currency":{
+            "name": "Вал.",
+            "options": "field: 'currency', width:50,editor:{type:'combobox',options:{required:true, valueField: 'label', textField: 'value',  data:[{'label':'1','value':'брб'},{'label':'2','value':'$'},{'label':'3','value':'eur'}]}}"
+        },
+		"published":{
+            "name": "Публ.",
+            "options": "field: 'published', width:50,editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        },
+		"paid":{
+            "name": "Платн.",
+            "options": "field: 'paid', width:50,editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        },
+		"views":{
+            "name": "View",
+            "options": "field: 'views', width:50,editor:{type:'numberbox', options:{min:0}}"
         }
     },
     "searchFields" : {
-        "ct_idmin": {
-            "name" : "ID от",
-            "searchtype" : "egt",
-            "dbname" : "id"
+		"ct_id": {
+            "name": "id",
+            "searchtype": "eq"
         },
-        "ct_idmax": {
-            "name":"ID до",
+		"ct_region": {
+            "name": "regId",
+            "searchtype": "eq"
+        },
+        "ct_user": {
+            "name": "userId",
+            "searchtype": "eq"
+        },
+        "ct_pricemin": {
+            "name" : "Цена от",
+            "searchtype" : "egt",
+            "dbname" : "price"
+        },
+        "ct_pricemax": {
+            "name":"Цена до",
             "searchtype" : "elt",
-            "dbname" : "id"
+            "dbname" : "price"
         },
         "ct_pagetitle": {
             "name": "Заголовок",

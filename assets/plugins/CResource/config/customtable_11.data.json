@@ -6,8 +6,6 @@
             "id",
             "pagetitle"
         ],
-        "dateSource" : "createdon",
-        "dateFormat" : "%d.%m.%Y",
         "display":"10",
         "debug":"0",
         "ignoreEmpty" : "1",

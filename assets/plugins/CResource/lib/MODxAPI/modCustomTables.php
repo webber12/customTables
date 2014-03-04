@@ -80,12 +80,20 @@ class modCustomTables extends autoTable{
         $this->set($this->alias_field, $this->getAlias());
         $this->set('editedon', time());
         $this->set('editedby', $this->modx->getLoginUserID());
+		if(isset($_POST['pub_date']) && $_POST['pub_date'] != ''){
+            $this->prepareDate('pub_date', $_POST['pub_date']);
+        }
+		if(isset($_POST['unpub_date']) && $_POST['unpub_date'] != ''){
+            $this->prepareDate('unpub_date', $_POST['unpub_date']);
+        }
+		/*
         if($this->get('pub_date') != ''){
             $this->prepareDate('pub_date', $this->get('pub_date'));
         }
         if($this->get('unpub_date') != ''){
             $this->prepareDate('unpub_date', $this->get('unpub_date'));
         }
+		*/
         foreach($this->default_field as $key=>$value){
             if ($this->newDoc && $this->get($key) == '' && $this->get($key)!==$value){
                 $this->set($key, $value);
@@ -175,14 +183,14 @@ class modCustomTables extends autoTable{
         return $alias;
     }
 
-    protected function prepareDate($key,$value)
+    protected function prepareDate($key, $value)
     {
-        if($value != '0'){
+        if($value != '0' && $value != 0 && $value != ''){
             $time = $this->modx->toTimeStamp($value);
-            $this->set($key,$time);
-            if($key == 'pub_date' && $time > time()){
+            $this->set($key, $time);
+            /*if($key == 'pub_date' && $time > time()){
                 $this->set('published','0');
-            }
+            }*/
         }
     }
     public function updateCacheEventTime()
