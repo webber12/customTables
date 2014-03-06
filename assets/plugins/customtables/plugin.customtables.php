@@ -40,12 +40,9 @@ switch ($evt->name) {
         if (isset($_REQUEST['customtable'])) {
             $script = '<script>
                 window.addEvent("domready", function(){
-                    document.getElementById("template").setProperty("name","template3");
-                    document.getElementById("template").value="'.$_REQUEST['customtable'].'";templateWarning();
                     document.getElementById("template").getParent().getParent().setStyle("display","none");
                 })</script>';
-            $output .= '<input type="hidden" name="template" value="'.$_REQUEST['customtable'].'">'.$script;
-            $output .= '<input type="hidden" name="customtable" value="'.$_REQUEST['customtable'].'">';
+            $output .= $script.'<input type="hidden" name="customtable" value="'.$_REQUEST['customtable'].'">';
         }
         break;
     case 'OnManagerPageInit':

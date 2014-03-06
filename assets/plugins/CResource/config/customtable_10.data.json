@@ -26,7 +26,7 @@
     "idField": "id",
     "docURL":{
         "edit":"index.php?a=27&customtable=10&id=",
-        "new":"index.php?a=4&customtable=10&pid="
+        "new":"index.php?a=4&customtable=10&newtemplate=10&pid="
     },
     "parentField": "parent",
     "renameField": {

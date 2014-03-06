@@ -25,7 +25,7 @@ class CRGrid extends CRcore{
                 break;
             }
             case '/site/js/':{
-                $js_include  = '<script src="'.$this->_modx->config['site_url']. 'site/js/jquery-1.4.4.min.js" type="text/javascript"></script><script type="text/javascript">var $'.$this->jqname.' = jQuery.noConflict();</script>';
+                $js_include  = '<script src="'.$this->_modx->config['site_url']. 'site/js/jquery-1.10.2.min.js" type="text/javascript"></script><script type="text/javascript">var $'.$this->jqname.' = jQuery.noConflict();</script>';
                 break;
             }
             case 'custom url':{
