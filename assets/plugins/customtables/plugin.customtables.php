@@ -45,6 +45,12 @@ switch ($evt->name) {
             $output .= $script.'<input type="hidden" name="customtable" value="'.$_REQUEST['customtable'].'">';
         }
         break;
+    case 'OnDocFormRender':
+        if (isset($_REQUEST['customtable']) && (int)$_REQUEST['customtable'] != 0) {
+            global $content;
+            $content['template'] = (int)$_REQUEST['customtable'];
+        }
+        break;
     case 'OnManagerPageInit':
         if ($action == 27 && isset($_REQUEST['customtable'])) {
             global $_lang, $_style, $which_editor, $use_editor;
