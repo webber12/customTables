@@ -216,7 +216,13 @@ class customtableDocLister extends DocLister
         $where = $this->getCFGDef('addWhereList', '');
         $where = ($where ? $where . ' AND ' : '') . $this->_filters['where'];
         $where = rtrim($where, " AND ");
+		$where .= $where == '' ? " ct.deleted=0 " : " AND ct.deleted=0 ";
+		if($this->getCFGDef('showNoPublish', 0)){
 		
+			}
+		else{
+				$where .= $where == '' ? " ct.published=1 " : " AND ct.published=1 ";
+		}
         if(!empty($where)){
             $where = "WHERE ".$where;
         }
