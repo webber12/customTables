@@ -146,13 +146,15 @@ class CustomTables
         }
     }
 
-    protected function createColumn($table_name, $tv_info=array(), $tv_id='')
+    protected function createColumn($table_name, $tv_info=array(), $tv_id='', $istmpl = false)
     {
         if (empty($tv_info) && $tv_id != '') {
             $tv_info = $this->getTVInfo($tv_id);
         }
         if ($this->columnExists($tv_info['name'], $table_name)) {
-            $tv_sql = 'ALTER IGNORE TABLE '.$table_name.' CHANGE `'. $tv_info['name'] .'` `'. $tv_info['name'] .'` '.$this->getSQLType($tv_info['type']);
+            if (!$istmpl) {
+                $tv_sql = 'ALTER IGNORE TABLE '.$table_name.' CHANGE `'. $tv_info['name'] .'` `'. $tv_info['name'] .'` '.$this->getSQLType($tv_info['type']);
+            }
         } else {
             $tv_sql = 'ALTER IGNORE TABLE '.$table_name.' ADD `'. $tv_info['name'] .'` '.$this->getSQLType($tv_info['type']);
         }
@@ -167,7 +169,7 @@ class CustomTables
         $sql = "SELECT tmplvarid FROM ".$this->tv_tmpl_table." WHERE templateid='$template_id' ORDER BY rank ASC";
         $q = $this->modx->db->query($sql);
         while ($row = $this->modx->db->getRow($q)) {
-            $this->createColumn($table_name, array(), $row['tmplvarid']);
+            $this->createColumn($table_name, array(), $row['tmplvarid'], true);
         }
     }
 
