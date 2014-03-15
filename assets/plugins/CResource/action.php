@@ -73,7 +73,6 @@ switch($mode){
         if(isset($_REQUEST['order']) && in_array(strtoupper($_REQUEST['order']), array("ASC","DESC"))){
             $param['sortDir'] = $_REQUEST['order'];
         }
-        $param = array_merge($param, $default);
 
         $param['idField'] = $CRdata->getOptions('idField','id');
         $tmp = $CRdata->getOptions('parentField',null);
@@ -87,6 +86,7 @@ switch($mode){
             $fs = implode(";", $filters);
             $param['filters'] = 'AND('.$fs.')';
         }
+        $param = array_merge($param, $default);
 
         $out=$modx->runSnippet("DocLister",$param);
         break;
