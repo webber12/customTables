@@ -59,6 +59,7 @@ switch($mode){
         $display = isset($default['display']) ? (int)$default['display'] : 10;
         $offset = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
         $offset = $display*($offset-1);
+        $param = array_merge($param, $default);
 
         $param['display'] = $display;
         $param['offset'] = $offset;
@@ -86,7 +87,6 @@ switch($mode){
             $fs = implode(";", $filters);
             $param['filters'] = 'AND('.$fs.')';
         }
-        $param = array_merge($param, $default);
 
         $out=$modx->runSnippet("DocLister",$param);
         break;
