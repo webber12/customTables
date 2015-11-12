@@ -29,15 +29,15 @@ class CustomTables
 
     private function loadAPI($modx)
     {
-        include_once MODX_BASE_PATH.'assets/plugins/CResource/lib/MODxAPI/modCustomTables.php';
+        include_once MODX_BASE_PATH.'assets/lib/MODxAPI/modCustomTables.php';
         $this->api = new modCustomTables($modx);
     }
 
     public function addTable($id)
     {
-        if (!$this->tableExists($this->modx->getFullTableName($this->tablePrefix.$id))) {
-            $sql="
-            CREATE TABLE IF NOT EXISTS ".$this->modx->getFullTableName($this->tablePrefix.$id)." (
+        if (!$this->tableExists($this->modx->getFullTableName($this->tablePrefix . $id))) {
+            $sql = "
+            CREATE TABLE IF NOT EXISTS " . $this->modx->getFullTableName($this->tablePrefix . $id) . " (
                 `id` int(10) NOT NULL AUTO_INCREMENT,
                 `type` varchar(20) NOT NULL DEFAULT 'document',
                 `contentType` varchar(50) NOT NULL DEFAULT 'text/html',
@@ -100,7 +100,7 @@ class CustomTables
 
     protected function getTVInfo($tv_id)
     {
-        $sql = "SELECT * FROM ".$this->tmplvars_table." WHERE id='".$tv_id."' LIMIT 0,1";
+        $sql = "SELECT * FROM " . $this->tmplvars_table . " WHERE id='" . $tv_id . "' LIMIT 0,1";
         $info = $this->modx->db->getRow($this->modx->db->query($sql));
         return $info;
     }
@@ -110,7 +110,7 @@ class CustomTables
         if (!$this->tableExists($table)) {
             return false;
         } else {
-            $sql='SHOW COLUMNS FROM '.$table;
+            $sql = 'SHOW COLUMNS FROM ' . $table;
             $res = $this->modx->db->query($sql);
             while ($row = $this->modx->db->getRow($res)) {
                 if ($row['Field'] == $column) return true;
@@ -121,7 +121,7 @@ class CustomTables
   
     protected function tableExists($table)
     {
-        $sql = "SHOW TABLES LIKE '$table'";
+        $sql = "SHOW TABLES LIKE '" . $table . "'";
         $res = $this->modx->db->query($sql);
         if($this->modx->db->getRecordCount($res) > 0) return true;
         return false;
@@ -131,7 +131,7 @@ class CustomTables
     {
         $tv_info = $this->getTVInfo($tv_id);
         $tmpls = array();
-        $sql = "SELECT templateid FROM ".$this->tv_tmpl_table." WHERE tmplvarid='".$tv_id."' AND templateid IN(".$this->tmpl_ids.")";
+        $sql = "SELECT templateid FROM " . $this->tv_tmpl_table . " WHERE tmplvarid='" . $tv_id . "' AND templateid IN(" . $this->tmpl_ids . ")";
         $q = $this->modx->db->query($sql);
         while ($row = $this->modx->db->getRow($q)) {
             $tmpls[] = $row['templateid'];
@@ -140,23 +140,23 @@ class CustomTables
             foreach ($tmpls as $tmpl) {
                 $this->addTable($tmpl);
                 $tv_sql = '';
-                $table_name = $this->modx->db->config['table_prefix'].$this->tablePrefix.$tmpl;
+                $table_name = $this->modx->db->config['table_prefix'] . $this->tablePrefix.$tmpl;
                 $this->createColumn($table_name, $tv_info);
             }
         }
     }
 
-    protected function createColumn($table_name, $tv_info=array(), $tv_id='', $istmpl = false)
+    protected function createColumn($table_name, $tv_info = array(), $tv_id = '', $istmpl = false)
     {
         if (empty($tv_info) && $tv_id != '') {
             $tv_info = $this->getTVInfo($tv_id);
         }
         if ($this->columnExists($tv_info['name'], $table_name)) {
-            if (!$istmpl) {
-                $tv_sql = 'ALTER IGNORE TABLE '.$table_name.' CHANGE `'. $tv_info['name'] .'` `'. $tv_info['name'] .'` '.$this->getSQLType($tv_info['type']);
-            }
+			if (!$istmpl) {
+				$tv_sql = 'ALTER IGNORE TABLE ' . $table_name . ' CHANGE `' . $tv_info['name'] . '` `' . $tv_info['name'] . '` ' . $this->getSQLType($tv_info['type']);
+			}
         } else {
-            $tv_sql = 'ALTER IGNORE TABLE '.$table_name.' ADD `'. $tv_info['name'] .'` '.$this->getSQLType($tv_info['type']);
+            $tv_sql = 'ALTER IGNORE TABLE ' . $table_name . ' ADD `' . $tv_info['name'] . '` ' . $this->getSQLType($tv_info['type']);
         }
         if ($tv_sql!='') {
             $q = $this->modx->db->query($tv_sql);
@@ -165,8 +165,8 @@ class CustomTables
 
     public function updateColumns($template_id)
     {
-        $table_name = $this->modx->db->config['table_prefix'].$this->tablePrefix.$template_id;
-        $sql = "SELECT tmplvarid FROM ".$this->tv_tmpl_table." WHERE templateid='$template_id' ORDER BY rank ASC";
+        $table_name = $this->modx->db->config['table_prefix'] . $this->tablePrefix . $template_id;
+        $sql = "SELECT tmplvarid FROM " . $this->tv_tmpl_table . " WHERE templateid=" . $template_id . " ORDER BY rank ASC";
         $q = $this->modx->db->query($sql);
         while ($row = $this->modx->db->getRow($q)) {
             $this->createColumn($table_name, array(), $row['tmplvarid'], true);
@@ -177,17 +177,17 @@ class CustomTables
     {
         $tv_info = $this->getTVInfo($tv_id);
         $tmpls = array();
-        $sql = "SELECT templateid FROM ".$this->tv_tmpl_table." WHERE tmplvarid='".$tv_id."' AND templateid IN(".$this->tmpl_ids.")";
+        $sql = "SELECT templateid FROM " . $this->tv_tmpl_table . " WHERE tmplvarid='" . $tv_id . "' AND templateid IN(" . $this->tmpl_ids . ")";
         $q = $this->modx->db->query($sql);
         while ($row = $this->modx->db->getRow($q)) {
             $tmpls[] = $row['templateid'];
         }
         if (!empty($tmpls)) {
             foreach ($tmpls as $tmpl) {
-                $table_name = $this->modx->db->config['table_prefix'].$this->tablePrefix.$tmpl;
+                $table_name = $this->modx->db->config['table_prefix'] . $this->tablePrefix.$tmpl;
                 if ($this->tableExists($table_name)) {
                     if ($this->columnExists($tv_info['name'], $table_name)) {
-                        $tv_sql = 'ALTER TABLE '.$table_name.' DROP `'. $tv_info['name'] .'`';
+                        $tv_sql = 'ALTER TABLE ' . $table_name . ' DROP `' . $tv_info['name'] . '`';
                         $q = $this->modx->db->query($tv_sql);
                     }
                 }
@@ -195,31 +195,32 @@ class CustomTables
         }
     }
 
-    public function checkTemplateById($id, $table=false)
+    public function checkTemplateById($id, $table = false)
     {
         $template = false;
         if (isset($_REQUEST['template']) && (int)$_REQUEST['template']!=0) {
             $template=(int)$_REQUEST['template'];
         }
-        if (!$template&&$table) {
-            $table_name = $this->modx->db->config['table_prefix'].$this->tablePrefix.$table;
-            $template = $this->modx->db->getValue($this->modx->db->query("SELECT template FROM $table_name WHERE id='$id' LIMIT 0,1"));
+        if (!$template && $table) {
+            $table_name = $this->modx->db->config['table_prefix'] . $this->tablePrefix . $table;
+            $template = $this->modx->db->getValue($this->modx->db->query("SELECT template FROM $table_name WHERE id=" . $id . " LIMIT 0,1"));
         }
         if ($template && in_array($template,$this->tmpl_ids_array)) {
             return true;
-        } else {return false;}
+        } else {
+            return false;
+        }
     }
 
     public function checkTemplate($template_id)
     {
-        if (in_array($template_id,$this->tmpl_ids_array)) return true;
-        else return false;
+        return in_array($template_id, $this->tmpl_ids_array) ? true :false;
     }
 
     protected function getTVNames($template_id)
     {
         $TVNames = array();
-        $q=$this->modx->db->query("SELECT a.id,a.name,a.default_text FROM ".$this->tmplvars_table." a,".$this->tv_tmpl_table." b WHERE a.id=b.tmplvarid AND b.templateid=".$template_id);
+        $q=$this->modx->db->query("SELECT a.id,a.name,a.default_text FROM " . $this->tmplvars_table . " a," . $this->tv_tmpl_table . " b WHERE a.id=b.tmplvarid AND b.templateid=" . $template_id);
         while ($row=$this->modx->db->getRow($q)) {
             $TVNames[$row['id']]['name'] = $row['name'];
             $TVNames[$row['id']]['default_text'] = $row['default_text'];
@@ -240,39 +241,39 @@ class CustomTables
             $data['menuindex'] = $this->makeMenuIndex((int)$data['parent']);
         }
         $edit = $this->api->create($data)->save();
-		return $edit; //new doc custom id
+        return $edit; //new doc custom id
     }
 
     protected function makeMenuIndex($parent)
     {
-        $sql="SELECT MAX(menuindex) FROM ".$this->modx->getFullTableName($this->api->getTable())." WHERE parent='$parent'";
+        $sql="SELECT MAX(menuindex) FROM " . $this->modx->getFullTableName($this->api->getTable()) . " WHERE parent=" . $parent;
         $q=$this->modx->db->getValue($this->modx->db->query($sql));
         return $q ? ($q+1) : 1; 
     }
 
     protected function prepareData($tmp)
     {
-        $template_id = isset($tmp['customtable'])?$tmp['customtable']:$tmp['template'];
+        $template_id = isset($tmp['customtable']) ? $tmp['customtable'] : $tmp['template'];
         $tmp['template'] = $template_id;//fix - сбивается POST['template'] при смене виз.редактора
         $TVNames = $this->getTVNames($template_id);
         $data = array();
-        foreach ($tmp as $k=>$v) {
-            if (strpos($k,'tv') === 0) {
+        foreach ($tmp as $k => $v) {
+            if (strpos($k, 'tv') === 0) {
                 $k = str_replace('tv', '', $k);
                 if (isset($TVNames[$k])) {
-                    $data[$TVNames[$k]['name']] = is_array($v)?implode('||',$v):($v==''?$TVNames[$k]['default_text']:$v);	
+                    $data[$TVNames[$k]['name']] = is_array($v) ? implode('||', $v) : ($v == '' ? $TVNames[$k]['default_text'] : $v);
                 } else {
-                    $data[$k] = is_array($v) ? implode('||',$v) : $v;
+                    $data[$k] = is_array($v) ? implode('||', $v) : $v;
                 }
             } else {
                 if($k == 'ta'){
                     $k = 'content';
                 }
-                $data[$k] = is_array($v) ? implode('||',$v) : $v;
+                $data[$k] = is_array($v) ? implode('||', $v) : $v;
             }
         }
-        foreach ($TVNames as $k=>$v) { //hack for empty checkboxes & radios
-            if (!isset($tmp['tv'.$k])) {
+        foreach ($TVNames as $k => $v) { //hack for empty checkboxes & radios
+            if (!isset($tmp['tv' . $k])) {
                 $data[$v['name']] = $v['default_text'];
             }
         }
@@ -283,9 +284,9 @@ class CustomTables
     {
         $alltvs = array();
         $tvs = array();
-        $q = $this->modx->db->query("SELECT * FROM ".$this->tmplvars_table." a,".$this->tv_tmpl_table." b WHERE a.id=b.tmplvarid AND b.templateid=".$template_id." ORDER BY b.rank ASC");
+        $q = $this->modx->db->query("SELECT * FROM " . $this->tmplvars_table . " a," . $this->tv_tmpl_table . " b WHERE a.id=b.tmplvarid AND b.templateid=" . $template_id . " ORDER BY b.rank ASC");
         while ($row=$this->modx->db->getRow($q)) {
-            if (isset($content[$row['name']])||is_null($content[$row['name']])) {
+            if (isset($content[$row['name']]) || is_null($content[$row['name']])) {
                 $tvs[$row['name']] = $row;
                 $tvs[$row['name']]['value'] = $content[$row['name']];
             }
@@ -304,7 +305,7 @@ class CustomTables
             if ($cacheRefreshTime <= $timeNow && $cacheRefreshTime != 0) {
                 // now, check for documents that need publishing
                 $table = $this->modx->getFullTableName("customtable_" . $tmpl_id);
-                $sql = "UPDATE {$table} SET {$field}=1, publishedon=" . time() . " WHERE " . $table.".pub_date <= {$timeNow} AND " . $table . ".pub_date != 0 AND {$field} = 0";
+                $sql = "UPDATE {$table} SET {$field}=1, publishedon=" . time() . " WHERE " . $table . ".pub_date <= {$timeNow} AND " . $table . ".pub_date != 0 AND {$field} = 0";
                 if (@ !$result= $this->modx->db->query($sql)) {
                     $this->modx->messageQuit("Execution of a query to the database failed", $sql);
                 }
@@ -321,6 +322,4 @@ class CustomTables
             }
         }
     }
-
-
 }//end class

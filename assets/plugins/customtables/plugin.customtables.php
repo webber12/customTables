@@ -24,12 +24,14 @@ switch ($evt->name) {
         break;
     case 'OnBeforeDocFormSave':
         if (isset($_POST['template']) && $oT->checkTemplate($_POST['template'])) {
-            $oT->api->setTable('customtable_'.$_POST['template']);
+            $oT->api->setTable('customtable_' . $_POST['template']);
             if ($evt->params['mode'] == 'new') {
                 $new=$oT->save2Doc($_POST);
                 if ($new) {
                     $oT->modx->clearCache();
                     header('Location:index.php?a=27&customtable=' . $_REQUEST['customtable'] . '&id=' . $new);
+					//die("<script>location.iframe.href = 'index.php?a=27&customtable=" . $_REQUEST['customtable'] . "&id=" . $new . "';</script>");
+					//echo '<META HTTP-EQUIV="Refresh" Content="0; URL=index.php?a=27&customtable=' . $_REQUEST['customtable'] . '&id=' . $new . '>';
                     echo $new . 'saved';
                 }
                 die();
@@ -42,7 +44,7 @@ switch ($evt->name) {
                 window.addEvent("domready", function(){
                     document.getElementById("template").getParent().getParent().setStyle("display","none");
                 })</script>';
-            $output .= $script.'<input type="hidden" name="customtable" value="'.$_REQUEST['customtable'].'">';
+            $output .= $script . '<input type="hidden" name="customtable" value="' . $_REQUEST['customtable'] . '">';
         }
         break;
     case 'OnDocFormRender':
@@ -69,7 +71,7 @@ switch ($evt->name) {
                 if (!$modx->hasPermission('save_document')) {
                     include_once MODX_MANAGER_PATH."includes/error.class.inc.php";
                     $err = new errorHandler;
-                    $err->setError(3,"You don't have enough privileges for this action!");
+                    $err->setError(3, "You don't have enough privileges for this action!");
                     $err->dumpError();
                 }
                 $oT->api->setTable('customtable_'.$_REQUEST['customtable']);

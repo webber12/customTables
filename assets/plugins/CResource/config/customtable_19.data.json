@@ -1,0 +1,77 @@
+{
+    "DocLister":{
+        "controller": "customtable",
+        "table" : "customtable_19",
+        "api": [
+            "id",
+            "pagetitle",
+			"parent",
+			"published",
+			"deleted",
+			"show_main"
+        ],
+        "display":"10",
+        "debug":"0",
+        "ignoreEmpty" : "1",
+        "idType":"documents",
+		"showNoPublish":"1",
+		"addWhereList":"template=19"
+    },
+    "table": "customtable_19",
+    "class": "modCustomTables",
+    "idField": "id",
+    "docURL":{
+        "edit":"index.php?a=27&customtable=19&id=",
+        "new":"index.php?a=4&customtable=19&newtemplate=19&pid="
+    },
+    "parentField": "parent",
+    "renameField": {
+        "/^tv_(.*)$/": "1"
+    },
+    "renameSearch": {
+        "/^search_(.*)$/": "1"
+    },
+    "rules":{
+        "template" : "18"
+    },
+    "grid" : {
+        "id" : {
+            "name":"ID",
+            "options": "field:'id',width:40"
+        },
+        "pagetitle":{
+            "name": "Имя",
+            "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
+        },
+		"show_main":{
+            "name": "На главную",
+            "options": "field:'show_main',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        },
+		"parent" : {
+            "name":"Родитель",
+            "options": "field:'parent',width:90,align:'right',editor:{type:'validatebox',options:{required:true}}"
+        },
+		"published" : {
+            "name":"Опубл.",
+            "options": "field:'published',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        },
+		"deleted" : {
+            "name":"Удален",
+            "options": "field:'deleted',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
+        }
+    },
+    "searchFields" : {
+		"ct_id": {
+            "name": "id",
+            "searchtype": "eq"
+        },
+        "ct_pagetitle": {
+            "name": "Имя",
+            "searchtype": "like"
+        },
+		"ct_parent": {
+            "name": "Родитель",
+            "searchtype": "eq"
+        }
+    }
+}

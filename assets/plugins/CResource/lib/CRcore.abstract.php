@@ -33,8 +33,8 @@ abstract class CRcore{
     }
 
     protected function loadModClass($class){
-        if(!class_exists($class) && file_exists(dirname(__FILE__)."/MODxAPI/".$class.".php")){
-            require_once(dirname(__FILE__)."/MODxAPI/".$class.".php");
+        if(!class_exists($class) && file_exists(MODX_BASE_PATH."assets/lib/MODxAPI/".$class.".php")){
+            require_once(MODX_BASE_PATH."assets/lib/MODxAPI/".$class.".php");
         }
         return class_exists($class);
     }

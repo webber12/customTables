@@ -12,23 +12,21 @@ if(!defined('MODX_BASE_PATH')){die('What are you doing? Get out of here!');}
 * @internal        @events         OnManagerPageInit, OnDocFormPrerender
 */
 
-include_once($modx->config['base_path'].'assets/plugins/CResource/lib/CRGrid.class.php');
+include_once($modx->config['base_path'] . 'assets/plugins/CResource/lib/CRGrid.class.php');
 	
-switch($modx->event->name){
-	case 'OnManagerPageInit':{	
-		if($action==3){
+switch ($modx->event->name) {
+	case 'OnManagerPageInit':
+		if ($action == 3) {
             $config = isset($config) ? $config : '';
             $action = isset($modx->event->params['action']) ? $modx->event->params['action'] : null;
             $CRGrid = new CRGrid($modx, $config);
-            if($CRGrid->checkRules()){
+            if ($CRGrid->checkRules()) {
 			    echo $CRGrid->render($which_jquery, $jqname, $js_src_type);
 			    die();
             }
 		}
 		break;
-	}
-	case 'OnDocFormPrerender':{
+	case 'OnDocFormPrerender':
 		//exit();
 		break; 
-	}
 }

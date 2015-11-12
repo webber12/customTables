@@ -64,6 +64,15 @@ class customtableDocLister extends DocLister
                 if ($this->checkExtender('user')) {
                     $this->extender['user']->init($this, array('fields' => $this->getCFGDef("userFields", "")));
                 }
+				
+				/**
+                 * @var $extGetViews getviews_DL_Extender
+                 */
+                $extGetViews = $this->getCFGdef('getviews',0) ? $this->getExtender('getviews',true) : NULL;
+
+				if ($extGetViews) {
+					$views_count = $extGetViews->countViews(array_keys($this->_docs));
+				}
 
                 foreach ($this->_docs as $item) {
                     $subTpl = '';
@@ -223,6 +232,7 @@ class customtableDocLister extends DocLister
 		else{
 				$where .= $where == '' ? " ct.published=1 " : " AND ct.published=1 ";
 		}
+		
         if(!empty($where)){
             $where = "WHERE ".$where;
         }
@@ -233,7 +243,7 @@ class customtableDocLister extends DocLister
         return $this->modx->db->getValue($rs);
     }
 
-    public function getChildernFolder($id)
+    public function getChildrenFolder($id)
     {
         $where = $this->getCFGDef('addWhereFolder', '');
         if(!empty($where)){
@@ -247,5 +257,5 @@ class customtableDocLister extends DocLister
             $out[] = $item[$this->getPK()];
         }
         return $out;
-    }
+    } 
 }

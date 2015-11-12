@@ -68,6 +68,7 @@ class CRdata extends CRcore{
         }
         return $out;
     }
+
     private function extractByKeyRules($data, $filtered_data = array()){
         $rename = $this->getOptions('renameSearch', false);
         if($rename && is_array($rename)){
@@ -85,6 +86,7 @@ class CRdata extends CRcore{
         }
         return $filtered_data;
     }
+
     public function makeFilters($data, $filters = array()){
         $search_fields = $this->getOptions('searchFields', array());
         $filter_fields = $this->extractByKeyRules($data);

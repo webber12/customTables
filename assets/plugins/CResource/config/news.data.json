@@ -1,19 +1,16 @@
 {
     "DocLister":{
-        "controller": "site_content",
+		"controller" : "site_content",
         "api": [
             "id",
-            "pagetitle",
-			"longtitle",
-            "tv.price"
+            "pagetitle"
         ],
-		"display":"10",
-        "tvList":"price",
+		"display":"20",
 		"debug":"0",
         "showNoPublish" : 1,
-        "idType":"documents"
+        "idType":"documents",
+		"debug" : "0"
     },
-    "table": "site_content",
     "class": "modResource",
     "idField": "id",
     "docURL":{
@@ -28,40 +25,22 @@
         "/^search_(.*)$/": "1"
     },
     "rules":{
-        "id" : "4"
+        "template" : "8"
     },
     "grid" : {
         "id" : {
             "name":"ID",
-            "options": "field:'id',width:40"
-        },
-        "price":{
-            "name": "Цена",
-            "options": "field: 'tv_price', width:85,editor:{type:'validatebox'}"
-        },
-		"longtitle":{
-            "name": "Расширенный заголовок",
-            "options": "field:'longtitle',width:280,align:'right',editor:{type:'validatebox'}"
+            "options": "field:'id',width:60"
         },
         "pagetitle":{
             "name": "Заголовок",
-            "options": "field:'pagetitle',width:280,align:'right',editor:{type:'validatebox',options:{required:true}}"
+            "options": "field:'pagetitle',width:500,editor:{type:'validatebox',options:{required:true}}"
         }
     },
     "searchFields" : {
         "content_pagetitle": {
             "name" : "Заголовок",
             "searchtype" : "like"
-        },
-        "tv_pricemin": {
-            "name":"Цена от",
-            "searchtype" : "egt",
-            "dbname" : "price"
-        },
-        "tv_pricemax": {
-            "name":"Цена до",
-            "searchtype" : "elt",
-            "dbname" : "price"
         },
         "content_idmin": {
             "name":"ID от",
@@ -72,10 +51,6 @@
             "name":"ID до",
             "searchtype" : "elt",
             "dbname" : "id"
-        },
-        "content_longtitle": {
-            "name": "Заголовок расширенный",
-            "searchtype": "like"
         }
     }
 }

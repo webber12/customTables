@@ -4,32 +4,26 @@
 <script type="text/javascript" src="<?=$dir;?>easyui/jquery.easyui.min.js"></script>
 <script type="text/javascript" src="<?=$dir;?>easyui/plugins/jquery.edatagrid.js"></script>
 <script type="text/javascript">
-    (function($){
-        $.extend($.fn.datebox.defaults,{
-            formatter:function(date){
-                var y = date.getFullYear();
-                var m = date.getMonth()+1;
-                var d = date.getDate();
-                return y + '-' + (m<10?('0'+m):m) + '-' + (d<10?('0'+d):d);
-            },
-            parser:function(s){
-                if (!s) return new Date();
-                var ss = s.split('-');
-                var d = parseInt(ss[2],10);
-                var m = parseInt(ss[1],10);
-                var y = parseInt(ss[0],10);
-                if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
-                    return new Date(y,m-1,d);
-                } else {
-                    return new Date();
-                }
+    <?=$jqname;?>.extend(<?=$jqname;?>.fn.datebox.defaults,{
+        formatter:function(date){
+            var y = date.getFullYear();
+            var m = date.getMonth()+1;
+            var d = date.getDate();
+            return (d<10?('0'+d):d) + '.' + (m<10?('0'+m):m) + '.' + y;
+        },
+        parser:function(s){
+            if (!s) return new Date();
+            var ss = s.split('-');
+            var d = parseInt(ss[2],10);
+            var m = parseInt(ss[1],10);
+            var y = parseInt(ss[0],10);
+            if (!isNaN(y) && !isNaN(m) && !isNaN(d)){
+                return new Date(y,m-1,d);
+            } else {
+                return new Date();
             }
-        });
-
-        $.extend($.fn.pagination.defaults,{
-            pageList:[10,20,30,50,100,200,500,1000]
-        });
-    })(jQuery);
+        }
+    });
 </script>
 <style>
     .datagrid-cell
@@ -39,8 +33,8 @@
 </style>
 <div id="tt" class="easyui-tabs" style="height:auto;">
     <div title="Документы" style="padding:10px" data-options="closable:false" >
-        <table class="easyui-datagrid" id="dataGrid" title="Basic DataGrid"
-               data-options="idField:'<?=$idField;?>',toolbar:'#tbar',singleSelect:true,pagination:true,pageSize:<?=$display;?>">
+        <table class="easyui-datagrid" id="dataGrid" title="Список документов"
+               data-options="idField:'<?=$idField;?>',toolbar:'#tbar',singleSelect:true,pagination:true,pageSize:10">
             <thead>
             <tr>
                 <?=$header;?>
@@ -53,22 +47,19 @@
 
 <div id="tbar" style="padding:5px;height:auto">
     <div style="margin-bottom:5px">
-        <a href="#" class="easyui-linkbutton" onclick="addBtn()" iconCls="icon-add" plain="true"> Добавить</a>
         <a href="#" class="easyui-linkbutton" onclick="editBtn()" iconCls="icon-edit" plain="true"> Редактировать</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"> Сохранить</a>
+        <a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"> Сохранить</a>
         <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"> Удалить</a>
-        <!--<a href="#" class="easyui-linkbutton"  iconCls="icon-remove" plain="true" onclick="javascript:<?/*=$jqname;*/?>('#dataGrid').edatagrid('destroyRow')"> Удалить</a>
-        <span style="margin-left:20px";>&nbsp;</span>
-        <input class="textsearch" style="width:180px">
-        <a href="#" class="easyui-linkbutton" onclick="findBtn()" iconCls="icon-search">Найти</a>-->
     </div>
-	<div class="filters">
+    <div class="filters">
         <?=$searchData['fields'];?>
     </div>
 </div>
 
 <script type="text/javascript">
+    var pager = <?=$jqname;?>('#dataGrid').datagrid().datagrid('getPager');
     var index = 0;
+
     function addPanel(id){
         index++;
         var url = window.location.href.replace(/#[^#]*$/, "");
@@ -81,7 +72,7 @@
         }
         <?=$jqname;?>('#tt').tabs('add',{
             title: title,
-            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:500px"></iframe>',
+            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:800px"></iframe>',
             height: '500px',
             closable: true
         });
@@ -94,7 +85,6 @@
         }
     }
 
-    var pager = <?=$jqname;?>('#dataGrid').datagrid().datagrid('getPager');
     var editIndex = undefined;
     <?=$jqname;?>('#dataGrid').edatagrid({
             url: '<?=$listURL;?>',
@@ -137,12 +127,8 @@
             });
         }
     }
-/*
+
     function findBtn(){
-        alert('Запустить поиск LIKE');
-    } */
-	function findBtn(){
         <?=$searchData['scripts'];?>
     }
 </script>
-

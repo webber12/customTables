@@ -7,13 +7,13 @@ $param = array_merge($param, (isset($json->DocLister) ? (array)$json->DocLister 
 $mode = isset($_REQUEST['mode']) ? $_REQUEST['mode'] : null;
 switch($mode){
     case 'update':{
-        if($id = $CRdata->update()){
-            $param['addWhereList'] = $CRdata->getOptions('idField','id')." = '".$id."'";
+        if ($id = $CRdata->update()) {
+            $param['addWhereList'] = $CRdata->getOptions('idField','id')." = '" . $id . "'";
             $out = $modx->runSnippet("DocLister", $param);
             $out = json_decode($out);
             $out = (array)$out->rows;
             $out = json_encode($out[0]);
-        }else{
+        } else {
             $out = array();
             $out['error'] = "Ошибка обновления записи";
             $out = json_encode($out);
@@ -22,7 +22,7 @@ switch($mode){
     }
     case 'save':{
         if($id = $CRdata->create()){
-            $param['addWhereList'] = $CRdata->getOptions('idField','id')." = '".$id."'";
+            $param['addWhereList'] = $CRdata->getOptions('idField', 'id') . " = '" . $id . "'";
             $out = $modx->runSnippet("DocLister", $param);
             $out = json_decode($out);
             $out = (array)$out->rows;
@@ -53,13 +53,13 @@ switch($mode){
     }
     case 'list':{
         $out = '';
-        $default = $CRdata->getOptions('DocLister',array());
+        $default = $CRdata->getOptions('DocLister', array());
+        //$param = array_merge($param , $default);
 
-        //$display = isset($_REQUEST['rows']) ? (int)$_REQUEST['rows'] : 10;
         $display = isset($default['display']) ? (int)$default['display'] : 10;
+        $display = isset($_REQUEST['rows']) ? (int)$_REQUEST['rows'] : $display;
         $offset = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : 1;
         $offset = $display*($offset-1);
-        $param = array_merge($param, $default);
 
         $param['display'] = $display;
         $param['offset'] = $offset;
@@ -71,24 +71,34 @@ switch($mode){
                 unset($param['sortBy']);
             }
         }
-        if(isset($_REQUEST['order']) && in_array(strtoupper($_REQUEST['order']), array("ASC","DESC"))){
+        if(isset($_REQUEST['order']) && in_array(strtoupper($_REQUEST['order']), array("ASC", "DESC"))){
             $param['sortDir'] = $_REQUEST['order'];
         }
+        $param = array_merge($param , $default);
 
-        $param['idField'] = $CRdata->getOptions('idField','id');
-        $tmp = $CRdata->getOptions('parentField',null);
+        $param['idField'] = $CRdata->getOptions('idField', 'id');
+        $tmp = $CRdata->getOptions('parentField', null);
 
-        if(isset($_REQUEST['parent']) && !empty($tmp) && (int)$_REQUEST['parent']>=0){
-            $param['addWhereList'] = $tmp." = '".(int)$_REQUEST['parent']."'";
+        /*if(isset($_REQUEST['parent']) && !empty($tmp) && (int)$_REQUEST['parent']>=0){
+            $param['parents'] = (int)$_REQUEST['parent'];
+        }*/
+        if(isset($_REQUEST['parent']) && !empty($tmp) && (int)$_REQUEST['parent'] >= 0) {
+            if ($param['controller'] == 'site_content_tags') {
+                $param['tagsData'] = "static:" . (int)$_REQUEST['parent'];
+            } else if ($param['controller'] == 'customtable') {
+                //empty
+            } else {
+                $param['addWhereList'] = $tmp . "=" . (int)$_REQUEST['parent'];
+            }
         }
 
         $filters = $CRdata->makeFilters($_REQUEST);
         if(!empty($filters)){
             $fs = implode(";", $filters);
-            $param['filters'] = 'AND('.$fs.')';
+            $param['filters'] = 'AND(' . $fs . ')';
         }
-
-        $out=$modx->runSnippet("DocLister",$param);
+        //$modx->logEvent('1', '2', json_encode($param), json_encode($param));
+        $out = $modx->runSnippet("DocLister", $param);
         break;
     }
 }
