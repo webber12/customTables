@@ -88,7 +88,8 @@ switch($mode){
             } else if ($param['controller'] == 'customtable') {
                 //empty
             } else {
-                $param['addWhereList'] = $tmp . "=" . (int)$_REQUEST['parent'];
+                //$param['addWhereList'] = $tmp . "=" . (int)$_REQUEST['parent'];
+                $param['parents'] = (int)$_REQUEST['parent'];
             }
         }
 
