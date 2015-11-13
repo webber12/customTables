@@ -1,5 +1,5 @@
 /**
- * CResource - Дочерние
+ * CResource - Тегованные
  *
  * Вывод ресурсов из стандартной таблицы modx_site_content, но с учетом тегов tagSaver (контроллер site_content_tags от DocLister)
  *
