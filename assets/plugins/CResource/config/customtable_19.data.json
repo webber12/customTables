@@ -5,17 +5,17 @@
         "api": [
             "id",
             "pagetitle",
-			"parent",
-			"published",
-			"deleted",
-			"show_main"
+            "parent",
+            "published",
+            "deleted",
+            "show_main"
         ],
         "display":"10",
         "debug":"0",
         "ignoreEmpty" : "1",
         "idType":"documents",
-		"showNoPublish":"1",
-		"addWhereList":"template=19"
+        "showNoPublish":"1",
+        "addWhereList":"template=19"
     },
     "table": "customtable_19",
     "class": "modCustomTables",
@@ -43,25 +43,25 @@
             "name": "Имя",
             "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
         },
-		"show_main":{
+        "show_main":{
             "name": "На главную",
             "options": "field:'show_main',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
         },
-		"parent" : {
+        "parent" : {
             "name":"Родитель",
             "options": "field:'parent',width:90,align:'right',editor:{type:'validatebox',options:{required:true}}"
         },
-		"published" : {
+        "published" : {
             "name":"Опубл.",
             "options": "field:'published',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
         },
-		"deleted" : {
+        "deleted" : {
             "name":"Удален",
             "options": "field:'deleted',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
         }
     },
     "searchFields" : {
-		"ct_id": {
+        "ct_id": {
             "name": "id",
             "searchtype": "eq"
         },
@@ -69,7 +69,7 @@
             "name": "Имя",
             "searchtype": "like"
         },
-		"ct_parent": {
+        "ct_parent": {
             "name": "Родитель",
             "searchtype": "eq"
         }

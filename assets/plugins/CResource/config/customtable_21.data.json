@@ -5,16 +5,16 @@
         "api": [
             "id",
             "pagetitle",
-			"parent",
-			"published",
-			"deleted"
+            "parent",
+            "published",
+            "deleted"
         ],
         "display":"10",
         "debug":"0",
         "ignoreEmpty" : "1",
         "idType":"documents",
-		"showNoPublish":"1",
-		"addWhereList":"template=21"
+        "showNoPublish":"1",
+        "addWhereList":"template=21"
     },
     "table": "customtable_21",
     "class": "modCustomTables",
@@ -42,21 +42,21 @@
             "name": "Название",
             "options": "field: 'pagetitle', width:250,editor:{type:'validatebox',options:{required:true}}"
         },
-		"parent" : {
+        "parent" : {
             "name":"Родитель",
             "options": "field:'parent',width:90,align:'right',editor:{type:'validatebox',options:{required:true}}"
         },
-		"published" : {
+        "published" : {
             "name":"Опубл.",
             "options": "field:'published',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
         },
-		"deleted" : {
+        "deleted" : {
             "name":"Удален",
             "options": "field:'deleted',width:90,align:'right',editor:{type:'checkbox',options:{on:'1',off:'0'}}"
         }
     },
     "searchFields" : {
-		"ct_id": {
+        "ct_id": {
             "name": "id",
             "searchtype": "eq"
         },
@@ -64,7 +64,7 @@
             "name": "Заголовок",
             "searchtype": "like"
         },
-		"ct_parent": {
+        "ct_parent": {
             "name": "Родитель",
             "searchtype": "eq"
         }

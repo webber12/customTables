@@ -1,36 +1,36 @@
 {
     "DocLister":{
-		"controller" : "site_content_tags",
+        "controller" : "site_content_tags",
         "api": [
             "id",
             "pagetitle",
-			"published",
-			"tv.category",
-			"tv.add_category",
-			"tv.price",
-			"tv.oldprice",
-			"tv.novinka",
-			"tv.action",
-			"tv.popular",
-			"tv.views",
-			"tv.nalichie",
-			"tv.manufacturer",
-			"tv.collection",
-			"tv.country",
-			"tv.nabor"
+            "published",
+            "tv.category",
+            "tv.add_category",
+            "tv.price",
+            "tv.oldprice",
+            "tv.novinka",
+            "tv.action",
+            "tv.popular",
+            "tv.views",
+            "tv.nalichie",
+            "tv.manufacturer",
+            "tv.collection",
+            "tv.country",
+            "tv.nabor"
         ],
-		"display":"20",
-		"debug":"0",
+        "display":"20",
+        "debug":"0",
         "showNoPublish" : 1,
         "idType":"documents",
-		"tvList":"category,add_category,price,oldprice,novinka,popular,views,nalichie,action,manufacturer,collection,country,nabor",
-		"tvSortType":"UNSIGNED",
-		"tagsTV": "55",
-		"tagsData" : "static:14"
+        "tvList":"category,add_category,price,oldprice,novinka,popular,views,nalichie,action,manufacturer,collection,country,nabor",
+        "tvSortType":"UNSIGNED",
+        "tagsTV": "55",
+        "tagsData" : "static:14"
     },
     "class": "modResource",
     "idField": "id",
-	"gridTemplate": "grid2",
+    "gridTemplate": "grid2",
     "docURL":{
         "edit":"index.php?a=27&id=",
         "new":"index.php?a=4&pid="
@@ -58,11 +58,11 @@
             "name": "Категории",
             "options": "field:'tv_category',width:100,editor:{type:'validatebox'}"
         },
-		"add_category":{
+        "add_category":{
             "name": "Доп.кат.",
             "options": "field:'tv_add_category',width:100,editor:{type:'validatebox'}"
         },
-		"nabor":{
+        "nabor":{
             "name": "Набор",
             "options": "field:'tv_nabor',width:50,editor:{type:'validatebox'}"
         },
@@ -70,7 +70,7 @@
             "name": "Цена",
             "options": "field:'tv_price',width:70,editor:{type:'validatebox'}"
         },
-		"oldprice":{
+        "oldprice":{
             "name": "Старая цена",
             "options": "field:'tv_oldprice',width:70,editor:{type:'validatebox'}"
         },
@@ -86,11 +86,11 @@
             "name": "Просм.",
             "options": "field: 'tv_views', width:50,align:'right',editor:{type:'validatebox'}"
         },
-		"popular":{
+        "popular":{
             "name": "Хит",
             "options": "field: 'tv_popular', width:30,align:'right',editor:{type:'checkbox',options:{on:'1',off:''}}"
         },
-		"nalichie":{
+        "nalichie":{
             "name": "Налич., штук",
             "options": "field: 'tv_nalichie', width:50,align:'right',editor:{type:'validatebox'}"
         },
@@ -120,7 +120,7 @@
             "name":"ID",
             "searchtype" : "eq"
         },
-		"tv_pricemin": {
+        "tv_pricemin": {
             "name":"Цена от",
             "searchtype" : "egt",
             "dbname" : "price"
@@ -130,11 +130,11 @@
             "searchtype" : "elt",
             "dbname" : "price"
         },
-		"tv_category": {
+        "tv_category": {
             "name" : "Категория",
             "searchtype" : "like"
         },
-		"tv_add_category": {
+        "tv_add_category": {
             "name" : "Доп.кат.",
             "searchtype" : "like"
         }
