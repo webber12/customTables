@@ -6,24 +6,14 @@
             "pagetitle",
             "published",
             "tv.category",
-            "tv.add_category",
             "tv.price",
-            "tv.oldprice",
-            "tv.novinka",
-            "tv.action",
-            "tv.popular",
-            "tv.views",
-            "tv.nalichie",
-            "tv.manufacturer",
-            "tv.collection",
-            "tv.country",
-            "tv.nabor"
+            "tv.novinka"
         ],
         "display":"20",
         "debug":"0",
         "showNoPublish" : 1,
         "idType":"documents",
-        "tvList":"category,add_category,price,oldprice,novinka,popular,views,nalichie,action,manufacturer,collection,country,nabor",
+        "tvList":"category,price,novinka",
         "tvSortType":"UNSIGNED",
         "tagsTV": "55",
         "tagsData" : "static:14"
@@ -58,53 +48,13 @@
             "name": "Категории",
             "options": "field:'tv_category',width:100,editor:{type:'validatebox'}"
         },
-        "add_category":{
-            "name": "Доп.кат.",
-            "options": "field:'tv_add_category',width:100,editor:{type:'validatebox'}"
-        },
-        "nabor":{
-            "name": "Набор",
-            "options": "field:'tv_nabor',width:50,editor:{type:'validatebox'}"
-        },
         "price":{
             "name": "Цена",
             "options": "field:'tv_price',width:70,editor:{type:'validatebox'}"
         },
-        "oldprice":{
-            "name": "Старая цена",
-            "options": "field:'tv_oldprice',width:70,editor:{type:'validatebox'}"
-        },
         "novinka":{
             "name": "New",
             "options": "field:'tv_novinka',width:40,align:'right',editor:{type:'checkbox',options:{on:'1',off:''}}"
-        },
-        "action":{
-            "name": "Акция",
-            "options": "field:'tv_action',width:40,align:'right',editor:{type:'checkbox',options:{on:'1',off:''}}"
-        },
-        "views":{
-            "name": "Просм.",
-            "options": "field: 'tv_views', width:50,align:'right',editor:{type:'validatebox'}"
-        },
-        "popular":{
-            "name": "Хит",
-            "options": "field: 'tv_popular', width:30,align:'right',editor:{type:'checkbox',options:{on:'1',off:''}}"
-        },
-        "nalichie":{
-            "name": "Налич., штук",
-            "options": "field: 'tv_nalichie', width:50,align:'right',editor:{type:'validatebox'}"
-        },
-        "country":{
-            "name": "Страна",
-            "options": "field:'tv_country',width:50,editor:{type:'validatebox'}"
-        },
-        "manufacturer":{
-            "name": "Произв.",
-            "options": "field:'tv_manufacturer',width:50,editor:{type:'validatebox'}"
-        },
-        "collection":{
-            "name": "Коллекц.",
-            "options": "field:'tv_collection',width:70,editor:{type:'validatebox'}"
         },
         "published" : {
             "name":"Публ.",
@@ -132,10 +82,6 @@
         },
         "tv_category": {
             "name" : "Категория",
-            "searchtype" : "like"
-        },
-        "tv_add_category": {
-            "name" : "Доп.кат.",
             "searchtype" : "like"
         }
     }
