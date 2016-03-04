@@ -81,7 +81,7 @@
         }
         <?=$jqname;?>('#tt').tabs('add',{
             title: title,
-            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:500px"></iframe>',
+            content: '<iframe scrolling="yes" frameborder="0"  src="'+ url +'" style="width:100%;height:800px"></iframe>',
             height: '500px',
             closable: true
         });
