@@ -39,7 +39,7 @@ class customtableDocLister extends DocLister
         if ($this->checkExtender('paginate')) {
             $pages = $this->extender['paginate']->init($this);
         } else {
-            $this->setConfig(array('start' => 0));
+            $this->config->setConfig(array('start' => 0));
         }
         $this->_docs = $this->getDocList();
 
@@ -131,7 +131,10 @@ class customtableDocLister extends DocLister
                     $item[$this->getCFGDef("sysKey", "dl") . '.class'] = $class;
 
                     if($this->checkExtender('prepare')){
-                        $item = $this->extender['prepare']->init($this, $item);
+                        $item = $this->extender['prepare']->init($this, array(
+                            'data'      => $item,
+                            'nameParam' => 'prepare'
+                        ));
                     }
                     $tmp = $this->parseChunk($subTpl, $item);
                     if ($this->getCFGDef('contentPlaceholder', 0) !== 0) {
