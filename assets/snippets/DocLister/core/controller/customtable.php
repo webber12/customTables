@@ -15,6 +15,7 @@ if (!defined('MODX_BASE_PATH')) {
 class customtableDocLister extends DocLister
 {
     protected $table = 'site_content';
+    protected $alias = 'ct';
 
     /**
      * @absctract
@@ -212,12 +213,10 @@ class customtableDocLister extends DocLister
 			
             $limit = $this->LimitSQL($this->getCFGDef('queryLimit', 0));
             $rs = $this->dbQuery("SELECT ct.* FROM {$this->table} ct {$where} {$sort} {$limit}");
-
-            $rows = $this->modx->db->makeArray($rs);
-            $out = array();
-            foreach ($rows as $item) {
-                $out[$item[$this->getPK()]] = $item;
+            while ($row = $this->modx->db->getRow($rs)) {
+                $out[] = $row;
             }
+
         }
         return $out;
     }
@@ -240,7 +239,7 @@ class customtableDocLister extends DocLister
             $where = "WHERE ".$where;
         }
 			
-        $fields = "count(`ct`.`{$this->getPK()}`) as `count`";
+        $fields = "count({$this->getPK()}) as `count`";
 				
         $rs = $this->dbQuery("SELECT {$fields} FROM {$this->table} ct {$where}");
         return $this->modx->db->getValue($rs);
