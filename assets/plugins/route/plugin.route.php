@@ -43,6 +43,7 @@ switch($modx->event->name){
                 if ($modx->db->getRecordCount($res) == 1) {
                     $custom_id = (int)$modx->db->getValue($res);
                     $modx->customDocID = $custom_id;
+                    $modx->systemCacheKey = 'notfound-customtables-' . $custom_id;
                     $modx->sendForward($target_doc_id);
                 }
             }
