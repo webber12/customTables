@@ -17,9 +17,9 @@ $modx->getSettings();
 
 $modx->documentMethod = "id";
 $modx->documentIdentifier = (isset($_REQUEST['id'])) ? (int)$_REQUEST['id'] : $modx->getConfig('error_page');
-$modx->documentObject = $modx->getDocumentObject('id', $modx->documentIdentifier);
+//$modx->documentObject = $modx->getDocumentObject('id', $modx->documentIdentifier);
 
-$modx->invokeEvent("OnWebPageInit");
+//$modx->invokeEvent("OnWebPageInit");
 
 define("IN_MANAGER_MODE", true);
 
