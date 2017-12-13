@@ -100,11 +100,11 @@ if (!empty ($id)) {
     $content = $modx->db->getRow($rs);
 } else {
     $content = array();
-	if(isset($_REQUEST['newtemplate'])) {
-		$content['template'] = $_REQUEST['newtemplate'];
-	} else {
-		$content['template'] = getDefaultTemplate();
-	}
+    if(isset($_REQUEST['newtemplate'])) {
+        $content['template'] = $_REQUEST['newtemplate'];
+    } else {
+        $content['template'] = getDefaultTemplate();
+    }
 }
 
 //make tvs from onetable
@@ -112,7 +112,7 @@ $sql = 'SELECT * FROM '.$tbl_site_tmplvar_templates.' WHERE templateid='.$tbl.' 
 $q = $modx->db->query($sql);
 $one_tvs=array();
 while($row=$modx->db->getRow($q)){
-	$one_tvs[]=$row;
+    $one_tvs[]=$row;
 }
 
 
@@ -122,9 +122,8 @@ if ($modx->manager->hasFormValues()) {
     $modx->manager->loadFormValues();
     $formRestored = true;
 }
-
 if(isset($_REQUEST['newtemplate'])) {
-	$formRestored = true;
+    $formRestored = true;
 }
 
 // retain form values if template was changed
@@ -144,8 +143,6 @@ if ($formRestored == true) {
         $content['unpub_date'] = $modx->toTimeStamp($content['unpub_date']);
     }
 }
-
-
 if (isset ($_POST['which_editor'])) {
     $which_editor = $_POST['which_editor'];
 }
@@ -308,40 +305,6 @@ function storeCurTemplate() {
     }
 }
 
-		var newTemplate;
-
-		function templateWarning() {alert('okk');
-			var dropTemplate = document.getElementById('template');
-			if(dropTemplate) {
-				for(var i = 0; i < dropTemplate.length; i++) {
-					if(dropTemplate[i].selected) {
-						newTemplate = dropTemplate[i].value;
-						break;
-					}
-				}
-			}
-			if(curTemplate === newTemplate) {
-				return;
-			}
-
-			if(documentDirty === true) {
-				if(confirm('<?= $_lang['tmplvar_change_template_msg']?>')) {
-					documentDirty = false;
-					document.mutate.a.value = <?php echo $action?>;
-					document.mutate.newtemplate.value = newTemplate;
-					document.mutate.submit();
-				} else {
-					dropTemplate[curTemplateIndex].selected = true;
-				}
-			}
-			else {
-				document.mutate.a.value = <?php echo $action?>;
-				document.mutate.newtemplate.value = newTemplate;
-				document.mutate.submit();
-			}
-		}
-		
-/*
 function templateWarning() {
     var dropTemplate = document.getElementById('template');
     if (dropTemplate) {
@@ -370,7 +333,7 @@ function templateWarning() {
         document.mutate.submit();
     }
 }
-*/
+
 
 // Added for RTE selection
 function changeRTE() {
@@ -528,21 +491,20 @@ function decode(s) {
 /* ]]> */
 </script>
 
-		
 <form name="mutate" id="mutate" class="content" method="post" enctype="multipart/form-data" action="index.php">
 <?php
 // invoke OnDocFormPrerender event
 $evtOut = $modx->invokeEvent('OnDocFormPrerender', array(
     'id' => $id,
-	'template' => $content['template']
+    'template' => $content['template']
 ));
 if (is_array($evtOut))
     echo implode('', $evtOut);
-	
-/*************************/	
-$dir=isset($_REQUEST['dir'])?$_REQUEST['dir']:'';
-$sort=isset($_REQUEST['sort'])?$_REQUEST['sort']:'createdon';
-$page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
+
+/*************************/    
+$dir = isset($_REQUEST['dir']) ? $_REQUEST['dir'] : '';
+$sort = isset($_REQUEST['sort'])? $_REQUEST['sort'] : 'createdon';
+$page = isset($_REQUEST['page']) ? (int)$_REQUEST['page'] : '';
 /*************************/
 
 ?>
@@ -579,34 +541,34 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
             </select>
           </li>
         </ul>
-			<div class="btn-group" style="display:none !important;">
-				<div class="btn-group dropdown">
-					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
-						<i class="fa fa-floppy-o"></i><span>Сохранить</span>
-					<i class="fa fa-plus"></i><span> + </span><i class="fa fa-pencil"></i><span>Продолжить</span></a>
-					<span class="btn btn-success plus dropdown-toggle"></span>
-					<select id="stay" name="stay">
-						
-							<option id="stay1" value="1">Создать новый</option>
-						
-						<option id="stay2" value="2" selected="selected">Продолжить</option>
-						<option id="stay3" value="">Закрыть</option>
-					</select>
-				<div class="dropdown-menu"><span class="btn btn-block" data-id="0"><i class="fa fa-file-o"></i> <span>Создать новый</span></span><span class="btn btn-block" data-id="2"><i class="fa fa-reply"></i> <span>Закрыть</span></span></div></div>
-				
-				<a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
-					<i class="fa fa-clone"></i><span>Сделать копию</span>
-				</a>
-				
-				<a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
-					<i class="fa fa-trash"></i><span>Удалить</span>
-				</a>
-				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
-					<i class="fa fa-times-circle"></i><span>Отмена</span>
-				</a>
-				
-			</div>
-			
+            <div class="btn-group" style="display:none !important;">
+                <div class="btn-group dropdown">
+                    <a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+                        <i class="fa fa-floppy-o"></i><span>Сохранить</span>
+                    <i class="fa fa-plus"></i><span> + </span><i class="fa fa-pencil"></i><span>Продолжить</span></a>
+                    <span class="btn btn-success plus dropdown-toggle"></span>
+                    <select id="stay" name="stay">
+                        
+                            <option id="stay1" value="1">Создать новый</option>
+                        
+                        <option id="stay2" value="2" selected="selected">Продолжить</option>
+                        <option id="stay3" value="">Закрыть</option>
+                    </select>
+                <div class="dropdown-menu"><span class="btn btn-block" data-id="0"><i class="fa fa-file-o"></i> <span>Создать новый</span></span><span class="btn btn-block" data-id="2"><i class="fa fa-reply"></i> <span>Закрыть</span></span></div></div>
+                
+                <a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
+                    <i class="fa fa-clone"></i><span>Сделать копию</span>
+                </a>
+                
+                <a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
+                    <i class="fa fa-trash"></i><span>Удалить</span>
+                </a>
+                <a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+                    <i class="fa fa-times-circle"></i><span>Отмена</span>
+                </a>
+                
+            </div>
+            
 </div>
 
 <!-- start main wrapper -->
@@ -629,7 +591,7 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                 &nbsp;&nbsp;<img src="<?php echo $_style["icons_tooltip_over"]?>" onmouseover="this.src='<?php echo $_style["icons_tooltip"]?>';" onmouseout="this.src='<?php echo $_style["icons_tooltip_over"]?>';" alt="<?php echo $_lang['resource_title_help']?>" onclick="alert(this.alt);" style="cursor:help;" /></td></tr>
             <tr style="height: 24px;"><td width="100" align="left"><span class="warning"><?php echo 'Создан';?></span><br><br></td>
                 <td><?php echo !empty($content['createdon']) ? strftime("%d.%m.%Y в %H:%M:%S", $content['createdon']) : "";?></td></tr>
-			<tr style="height: 24px;"><td align="left"><span class="warning"><?php echo $_lang['long_title']?></span></td>
+            <tr style="height: 24px;"><td align="left"><span class="warning"><?php echo $_lang['long_title']?></span></td>
                 <td><input name="longtitle" type="text" maxlength="255" value="<?php echo $modx->htmlspecialchars(stripslashes($content['longtitle']))?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true" />
                 &nbsp;&nbsp;<img src="<?php echo $_style["icons_tooltip_over"]?>" onmouseover="this.src='<?php echo $_style["icons_tooltip"]?>';" onmouseout="this.src='<?php echo $_style["icons_tooltip_over"]?>';" alt="<?php echo $_lang['resource_long_title_help']?>" onclick="alert(this.alt);" style="cursor:help;" /></td></tr>
             <tr style="height: 24px;"><td><span class="warning"><?php echo $_lang['resource_description']?></span></td>
@@ -811,7 +773,7 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                 $rs = $modx->db->query($sql);
                 $limit = $modx->db->getRecordCount($rs);
 */
-				$otTvs=$oT->getTVFromContent($content,$tbl);
+                $otTvs=$oT->getTVFromContent($content,$tbl);
 
                 if (is_array($otTvs)&&count($otTvs) > 0) {
                     echo "\t".'<table style="position:relative;" border="0" cellspacing="0" cellpadding="3" width="96%">'."\n";
@@ -820,7 +782,7 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                  //   for ($i = 0; $i < $limit; $i++) {
                         // Go through and display all Template Variables
                  //       $row = $modx->db->getRow($rs);
-					foreach ($otTvs as $name=>$row){
+                    foreach ($otTvs as $name=>$row){
                         if ($row['type'] == 'richtext' || $row['type'] == 'htmlarea') {
                             // Add richtext editor to the list
                             if (is_array($replace_richtexteditor)) {
@@ -848,15 +810,15 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                             $tvPBV = $row['value'];
                         }
 
-						$tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . $row['description'] . '</br>' : '';
-						$tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT') ? '<br /><span class="comment inherited">(' . $_lang['tmplvars_inherited'] . ')</br>' : '';
+                        $tvDescription = (!empty($row['description'])) ? '<br /><span class="comment">' . $row['description'] . '</br>' : '';
+                        $tvInherited = (substr($tvPBV, 0, 8) == '@INHERIT') ? '<br /><span class="comment inherited">(' . $_lang['tmplvars_inherited'] . ')</br>' : '';
                        
                         echo "\t\t",'<tr style="height: 24px;"><td align="left" valign="top" width="150"><span class="warning">',$row['caption'],"</span>\n",
                              "\t\t\t",$tvDescription,$tvInherited,"</td>\n",
                              "\t\t\t",'<td valign="top" style="position:relative;',($row['type'] == 'date' ? '' : ''),'">',"\n",
                              "\t\t\t",renderFormElement($row['type'], $row['id'], $row['default_text'], $row['elements'], $tvPBV, '', $row),"\n",
                              "\t\t</td></tr>\n";
-							}
+                            }
                  //   }
                     echo "\t</table>\n";
                 } else {
@@ -1258,7 +1220,7 @@ if ($use_udperms == 1) {
 // invoke OnDocFormRender event
 $evtOut = $modx->invokeEvent('OnDocFormRender', array(
     'id' => $id,
-	'template' => $content['template']
+    'template' => $content['template']
 ));
 if (is_array($evtOut)) echo implode('', $evtOut);
 ?>
@@ -1285,42 +1247,42 @@ if (is_array($evtOut)) echo implode('', $evtOut);
 
 function getDefaultTemplate()
 {
-	global $modx;
-	
-	switch($modx->config['auto_template_logic'])
-	{
-		case 'sibling':
-			if(!isset($_GET['pid']) || empty($_GET['pid']))
-		    {
-		    	$site_start = $modx->config['site_start'];
-		    	$where = "sc.isfolder=0 AND sc.id!='{$site_start}'";
-		    	$sibl = $modx->getDocumentChildren($_REQUEST['pid'], 1, 0, 'template', $where, 'menuindex', 'ASC', 1);
-		    	if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
-			}
-			else
-			{
-				$sibl = $modx->getDocumentChildren($_REQUEST['pid'], 1, 0, 'template', 'isfolder=0', 'menuindex', 'ASC', 1);
-				if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
-				else
-				{
-					$sibl = $modx->getDocumentChildren($_REQUEST['pid'], 0, 0, 'template', 'isfolder=0', 'menuindex', 'ASC', 1);
-					if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
-				}
-			}
-			break;
-		case 'parent':
-			if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']))
-			{
-				$parent = $modx->getPageInfo($_REQUEST['pid'], 0, 'template');
-				if(isset($parent['template'])) $default_template = $parent['template'];
-			}
-			break;
-		case 'system':
-		default: // default_template is already set
-			$default_template = $modx->config['default_template'];
-	}
-	if(!isset($default_template)) $default_template = $modx->config['default_template']; // default_template is already set
-	
-	return $default_template;
+    global $modx;
+    
+    switch($modx->config['auto_template_logic'])
+    {
+        case 'sibling':
+            if(!isset($_GET['pid']) || empty($_GET['pid']))
+            {
+                $site_start = $modx->config['site_start'];
+                $where = "sc.isfolder=0 AND sc.id!='{$site_start}'";
+                $sibl = $modx->getDocumentChildren($_REQUEST['pid'], 1, 0, 'template', $where, 'menuindex', 'ASC', 1);
+                if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
+            }
+            else
+            {
+                $sibl = $modx->getDocumentChildren($_REQUEST['pid'], 1, 0, 'template', 'isfolder=0', 'menuindex', 'ASC', 1);
+                if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
+                else
+                {
+                    $sibl = $modx->getDocumentChildren($_REQUEST['pid'], 0, 0, 'template', 'isfolder=0', 'menuindex', 'ASC', 1);
+                    if(isset($sibl[0]['template']) && $sibl[0]['template']!=='') $default_template = $sibl[0]['template'];
+                }
+            }
+            break;
+        case 'parent':
+            if (isset($_REQUEST['pid']) && !empty($_REQUEST['pid']))
+            {
+                $parent = $modx->getPageInfo($_REQUEST['pid'], 0, 'template');
+                if(isset($parent['template'])) $default_template = $parent['template'];
+            }
+            break;
+        case 'system':
+        default: // default_template is already set
+            $default_template = $modx->config['default_template'];
+    }
+    if(!isset($default_template)) $default_template = $modx->config['default_template']; // default_template is already set
+    
+    return $default_template;
 }
 
