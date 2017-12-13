@@ -3,10 +3,10 @@ if (IN_MANAGER_MODE != 'true') die('<b>INCLUDE_ORDERING_ERROR</b><br /><br />Ple
 
 
 /********************/
-$sd=isset($_REQUEST['dir'])?'&dir='.$_REQUEST['dir']:'&dir=DESC';
-$sb=isset($_REQUEST['sort'])?'&sort='.$_REQUEST['sort']:'&sort=createdon';
-$pg=isset($_REQUEST['page'])?'&page='.(int)$_REQUEST['page']:'';
-$add_path=$sd.$sb.$pg;
+$sd = isset($_REQUEST['dir']) ? '&dir=' . $_REQUEST['dir'] : '&dir=DESC';
+$sb = isset($_REQUEST['sort']) ? '&sort=' . $_REQUEST['sort'] : '&sort=createdon';
+$pg = isset($_REQUEST['page']) ? '&page=' . (int)$_REQUEST['page'] : '';
+$add_path = $sd . $sb . $pg;
 /*******************/
 
 // check permissions
@@ -23,13 +23,13 @@ switch ($_REQUEST['a']) {
 }
 
 
-if (isset($_REQUEST['id']))
-        $id = (int)$_REQUEST['id'];
-else    $id = 0;
+$id = isset($_REQUEST['id']) ? intval($_REQUEST['id']) : 0;
 
-if ($manager_theme)
-        $manager_theme .= '/';
-else    $manager_theme  = '';
+if ($manager_theme) {
+    $manager_theme .= '/'; 
+} else {
+    $manager_theme  = '';
+}
 
 // Get table names (alphabetical)
 $tbl_active_users               = $modx->getFullTableName('active_users');
@@ -53,26 +53,18 @@ $tbl_site_tmplvars              = $modx->getFullTableName('site_tmplvars');
 if ($action == 27) {
     //editing an existing document
     // check permissions on the document
-    include_once(MODX_MANAGER_PATH.'processors/user_documents_permissions.class.php');
+    include_once(MODX_MANAGER_PATH . 'processors/user_documents_permissions.class.php');
     $udperms = new udperms();
     $udperms->user = $modx->getLoginUserID();
     $udperms->document = $modx->config['site_start'];
     $udperms->role = $_SESSION['mgrRole'];
-    if (!$udperms->checkPermissions()) {
-?>
-<br /><br />
-<div class="sectionHeader"><?php echo $_lang['access_permissions']?></div>
-<div class="sectionBody">
-    <p><?php echo $_lang['access_permission_denied']?></p>
-</div>
-<?php
-    include(MODX_MANAGER_PATH.'includes/footer.inc.php');
-    exit;
+    if(!$udperms->checkPermissions()) {
+        $modx->webAlertAndQuit($_lang["access_permission_denied"]);
     }
 }
 
 // Check to see the document isn't locked
-$sql = 'SELECT internalKey, username FROM '.$tbl_active_users.' WHERE action=27 AND id=\''.$id.'\'';
+$sql = 'SELECT internalKey, username FROM '.$tbl_active_users.' WHERE action=27 AND id=\'' . $id . '\'';
 $rs = $modx->db->query($sql);
 $limit = $modx->db->getRecordCount($rs);
 if ($limit > 1) {
@@ -93,8 +85,8 @@ if ($_SESSION['mgrDocgroups']) {
 
 if (!empty ($id)) {
     $sql = 'SELECT DISTINCT * '.
-           'FROM '.$onetbl.' '.
-           'WHERE id=\''.$id.'\' LIMIT 0,1';
+           'FROM ' . $onetbl . ' '.
+           'WHERE id=\'' . $id . '\' LIMIT 0,1';
     $rs = $modx->db->query($sql);
     $limit = $modx->db->getRecordCount($rs);
     if ($limit > 1) {
@@ -108,11 +100,16 @@ if (!empty ($id)) {
     $content = $modx->db->getRow($rs);
 } else {
     $content = array();
+	if(isset($_REQUEST['newtemplate'])) {
+		$content['template'] = $_REQUEST['newtemplate'];
+	} else {
+		$content['template'] = getDefaultTemplate();
+	}
 }
 
 //make tvs from onetable
-$sql='SELECT * FROM '.$tbl_site_tmplvar_templates.' WHERE templateid='.$tbl.' ORDER BY rank ASC';
-$q=$modx->db->query($sql);
+$sql = 'SELECT * FROM '.$tbl_site_tmplvar_templates.' WHERE templateid='.$tbl.' ORDER BY rank ASC';
+$q = $modx->db->query($sql);
 $one_tvs=array();
 while($row=$modx->db->getRow($q)){
 	$one_tvs[]=$row;
@@ -126,10 +123,14 @@ if ($modx->manager->hasFormValues()) {
     $formRestored = true;
 }
 
+if(isset($_REQUEST['newtemplate'])) {
+	$formRestored = true;
+}
+
 // retain form values if template was changed
 // edited to convert pub_date and unpub_date
 // sottwell 02-09-2006
-if ($formRestored == true || isset ($_REQUEST['newtemplate'])) {
+if ($formRestored == true) {
     $content = array_merge($content, $_POST);
     $content['content'] = $_POST['ta'];
     if (empty ($content['pub_date'])) {
@@ -306,6 +307,41 @@ function storeCurTemplate() {
         }
     }
 }
+
+		var newTemplate;
+
+		function templateWarning() {alert('okk');
+			var dropTemplate = document.getElementById('template');
+			if(dropTemplate) {
+				for(var i = 0; i < dropTemplate.length; i++) {
+					if(dropTemplate[i].selected) {
+						newTemplate = dropTemplate[i].value;
+						break;
+					}
+				}
+			}
+			if(curTemplate === newTemplate) {
+				return;
+			}
+
+			if(documentDirty === true) {
+				if(confirm('<?= $_lang['tmplvar_change_template_msg']?>')) {
+					documentDirty = false;
+					document.mutate.a.value = <?php echo $action?>;
+					document.mutate.newtemplate.value = newTemplate;
+					document.mutate.submit();
+				} else {
+					dropTemplate[curTemplateIndex].selected = true;
+				}
+			}
+			else {
+				document.mutate.a.value = <?php echo $action?>;
+				document.mutate.newtemplate.value = newTemplate;
+				document.mutate.submit();
+			}
+		}
+		
+/*
 function templateWarning() {
     var dropTemplate = document.getElementById('template');
     if (dropTemplate) {
@@ -334,6 +370,7 @@ function templateWarning() {
         document.mutate.submit();
     }
 }
+*/
 
 // Added for RTE selection
 function changeRTE() {
@@ -491,11 +528,13 @@ function decode(s) {
 /* ]]> */
 </script>
 
+		
 <form name="mutate" id="mutate" class="content" method="post" enctype="multipart/form-data" action="index.php">
 <?php
 // invoke OnDocFormPrerender event
 $evtOut = $modx->invokeEvent('OnDocFormPrerender', array(
-    'id' => $id
+    'id' => $id,
+	'template' => $content['template']
 ));
 if (is_array($evtOut))
     echo implode('', $evtOut);
@@ -540,6 +579,34 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
             </select>
           </li>
         </ul>
+			<div class="btn-group" style="display:none !important;">
+				<div class="btn-group dropdown">
+					<a id="Button1" class="btn btn-success" href="javascript:;" onclick="actions.save();">
+						<i class="fa fa-floppy-o"></i><span>Сохранить</span>
+					<i class="fa fa-plus"></i><span> + </span><i class="fa fa-pencil"></i><span>Продолжить</span></a>
+					<span class="btn btn-success plus dropdown-toggle"></span>
+					<select id="stay" name="stay">
+						
+							<option id="stay1" value="1">Создать новый</option>
+						
+						<option id="stay2" value="2" selected="selected">Продолжить</option>
+						<option id="stay3" value="">Закрыть</option>
+					</select>
+				<div class="dropdown-menu"><span class="btn btn-block" data-id="0"><i class="fa fa-file-o"></i> <span>Создать новый</span></span><span class="btn btn-block" data-id="2"><i class="fa fa-reply"></i> <span>Закрыть</span></span></div></div>
+				
+				<a id="Button6" class="btn btn-secondary" href="javascript:;" onclick="actions.duplicate();">
+					<i class="fa fa-clone"></i><span>Сделать копию</span>
+				</a>
+				
+				<a id="Button3" class="btn btn-secondary" href="javascript:;" onclick="actions.delete();">
+					<i class="fa fa-trash"></i><span>Удалить</span>
+				</a>
+				<a id="Button5" class="btn btn-secondary" href="javascript:;" onclick="actions.cancel();">
+					<i class="fa fa-times-circle"></i><span>Отмена</span>
+				</a>
+				
+			</div>
+			
 </div>
 
 <!-- start main wrapper -->
@@ -560,7 +627,9 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
             <tr style="height: 24px;"><td width="100" align="left"><span class="warning"><?php echo $_lang['resource_title']?></span></td>
                 <td><input name="pagetitle" type="text" maxlength="255" value="<?php echo $modx->htmlspecialchars(stripslashes($content['pagetitle']))?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true" />
                 &nbsp;&nbsp;<img src="<?php echo $_style["icons_tooltip_over"]?>" onmouseover="this.src='<?php echo $_style["icons_tooltip"]?>';" onmouseout="this.src='<?php echo $_style["icons_tooltip_over"]?>';" alt="<?php echo $_lang['resource_title_help']?>" onclick="alert(this.alt);" style="cursor:help;" /></td></tr>
-            <tr style="height: 24px;"><td align="left"><span class="warning"><?php echo $_lang['long_title']?></span></td>
+            <tr style="height: 24px;"><td width="100" align="left"><span class="warning"><?php echo 'Создан';?></span><br><br></td>
+                <td><?php echo !empty($content['createdon']) ? strftime("%d.%m.%Y в %H:%M:%S", $content['createdon']) : "";?></td></tr>
+			<tr style="height: 24px;"><td align="left"><span class="warning"><?php echo $_lang['long_title']?></span></td>
                 <td><input name="longtitle" type="text" maxlength="255" value="<?php echo $modx->htmlspecialchars(stripslashes($content['longtitle']))?>" class="inputBox" onchange="documentDirty=true;" spellcheck="true" />
                 &nbsp;&nbsp;<img src="<?php echo $_style["icons_tooltip_over"]?>" onmouseover="this.src='<?php echo $_style["icons_tooltip"]?>';" onmouseout="this.src='<?php echo $_style["icons_tooltip_over"]?>';" alt="<?php echo $_lang['resource_long_title_help']?>" onclick="alert(this.alt);" style="cursor:help;" /></td></tr>
             <tr style="height: 24px;"><td><span class="warning"><?php echo $_lang['resource_description']?></span></td>
@@ -607,13 +676,13 @@ $page=isset($_REQUEST['page'])?(int)$_REQUEST['page']:'';
                         $closeOptGroup = false;
                     }
                     if (isset($_REQUEST['newtemplate'])) {
-                        $selectedtext = $row['id'] == $_REQUEST['newtemplate'] ? ' selected="selected"' : '';
+                        $selectedtext = ($row['id'] == $_REQUEST['newtemplate']) ? ' selected="selected"' : '';
                     } else {
                         if (isset ($content['template'])) {
-                            $selectedtext = $row['id'] == $content['template'] ? ' selected="selected"' : '';
+                            $selectedtext = ($row['id'] == $content['template']) ? ' selected="selected"' : '';
                         } else {
                             $default_template = getDefaultTemplate();
-                            $selectedtext = $row['id'] == $default_template ? ' selected="selected"' : '';
+                            $selectedtext = ($row['id'] == $default_template) ? ' selected="selected"' : '';
                         }
                     }
                     echo "\t\t\t\t\t".'<option value="'.$row['id'].'"'.$selectedtext.'>'.$row['templatename']."</option>\n";
@@ -1189,6 +1258,7 @@ if ($use_udperms == 1) {
 // invoke OnDocFormRender event
 $evtOut = $modx->invokeEvent('OnDocFormRender', array(
     'id' => $id,
+	'template' => $content['template']
 ));
 if (is_array($evtOut)) echo implode('', $evtOut);
 ?>
@@ -1253,3 +1323,4 @@ function getDefaultTemplate()
 	
 	return $default_template;
 }
+
