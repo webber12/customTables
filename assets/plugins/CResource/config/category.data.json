@@ -35,6 +35,8 @@
     "rules":{
         "template" : "16"
     },
+    "gridTitle" : "ТОВАРЫ КАТЕГОРИИ",
+    "gridTabTitle" : "ТОВАРЫ КАТЕГОРИИ",
     "grid" : {
         "id" : {
             "name":"ID",

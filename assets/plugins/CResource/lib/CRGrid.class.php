@@ -111,7 +111,9 @@ class CRGrid extends CRcore{
               $out .= "<th data-options=\"{$options}\" sortable=\"true\">{$name}</th>";
         }
         $data['header'] = $out;
-		$data['searchData'] = $this->makeSearchData();
+        $data['gridTitle'] = $this->getOptions('gridTitle', 'СПИСОК РЕСУРСОВ');
+        $data['gridTabTitle'] = $this->getOptions('gridTabTitle', 'СПИСОК РЕСУРСОВ') . ' - ' . $this->_modx->db->getValue("SELECT pagetitle FROM " . $this->_modx->getFullTableName("site_content") . " WHERE id=" . (int)$_GET['id']);
+        $data['searchData'] = $this->makeSearchData();
         //return $this->template('grid',$data);
 		return $this->template($this->getOptions('gridTemplate','grid'), $data);
     }

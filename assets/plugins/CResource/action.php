@@ -78,6 +78,7 @@ switch($mode){
 
         $param['idField'] = $CRdata->getOptions('idField', 'id');
         $tmp = $CRdata->getOptions('parentField', null);
+        $checkParent = $CRdata->getOptions('checkParent', null);
 
         /*if(isset($_REQUEST['parent']) && !empty($tmp) && (int)$_REQUEST['parent']>=0){
             $param['parents'] = (int)$_REQUEST['parent'];
@@ -87,6 +88,9 @@ switch($mode){
                 $param['tagsData'] = "static:" . (int)$_REQUEST['parent'];
             } else if ($param['controller'] == 'customtable') {
                 //empty
+                if ($checkParent) {
+                    $param['addWhereList'] = $tmp . " = '" . (int)$_REQUEST['parent'] . "'";
+                }
             } else {
                 //$param['addWhereList'] = $tmp . "=" . (int)$_REQUEST['parent'];
                 $param['parents'] = (int)$_REQUEST['parent'];

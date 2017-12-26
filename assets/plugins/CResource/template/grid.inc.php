@@ -38,8 +38,8 @@
     }
 </style>
 <div id="tt" class="easyui-tabs" style="height:auto;">
-    <div title="Документы" style="padding:10px" data-options="closable:false" >
-        <table class="easyui-datagrid" id="dataGrid" title="Basic DataGrid"
+    <div title="<?=$gridTabTitle;?>" style="padding:10px" data-options="closable:false" >
+        <table class="easyui-datagrid" id="dataGrid" title="<?=$gridTitle;?>"
                data-options="idField:'<?=$idField;?>',toolbar:'#tbar',singleSelect:true,pagination:true,pageSize:<?=$display;?>">
             <thead>
             <tr>
