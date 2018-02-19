@@ -32,10 +32,21 @@
     })(jQuery);
 </script>
 <style>
-    .datagrid-cell
-    {
-        color:#000;
-    }
+    .datagrid-toolbar{background:#ffffff;}
+    .datagrid-cell{color:#000;}
+    .panel-body{padding:20px 0 !important;}
+    a.l-btn span span.l-btn-icon-left{padding-left:0;}
+    a.easyui-linkbutton{vertical-align:top;}
+    a.easyui-linkbutton i.fa{}
+    .filters{padding:10px;background:#f5f5f5;text-align:right;}
+    .filters label{margin-right:10px;}
+    .filters label input{border:solid 1px #D4D4D4;background:#ffffff;padding:3px;}
+    .tabs-header{border:none;background:none;}
+    #tt .tabs{padding-left:0;height:auto;border-bottom:solid 1px rgb(221, 221, 221);}
+    #tt .tabs:after{display:table;content:'';float:none;clear:both;}
+    #tt .tabs>li{padding: 0 14px;border-radius:0;height:40px;line-height:40px;}
+    #tt .tabs>li a{border:none;}
+    #tt .tabs>li.tabs-selected{border:solid 1px rgb(221, 221, 221);border-bottom:solid 1px #ffffff;background:#ffffff;}
 </style>
 <div id="tt" class="easyui-tabs" style="height:auto;">
     <div title="<?=$gridTabTitle;?>" style="padding:10px" data-options="closable:false" >
@@ -52,17 +63,13 @@
 </div>
 
 <div id="tbar" style="padding:5px;height:auto">
-    <div style="margin-bottom:5px">
-        <a href="#" class="easyui-linkbutton" onclick="addBtn()" iconCls="icon-add" plain="true"> Добавить</a>
-        <a href="#" class="easyui-linkbutton" onclick="editBtn()" iconCls="icon-edit" plain="true"> Редактировать</a>
-		<a href="#" class="easyui-linkbutton" iconCls="icon-save" plain="true" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"> Сохранить</a>
-        <a href="#" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"> Удалить</a>
-        <!--<a href="#" class="easyui-linkbutton"  iconCls="icon-remove" plain="true" onclick="javascript:<?/*=$jqname;*/?>('#dataGrid').edatagrid('destroyRow')"> Удалить</a>
-        <span style="margin-left:20px";>&nbsp;</span>
-        <input class="textsearch" style="width:180px">
-        <a href="#" class="easyui-linkbutton" onclick="findBtn()" iconCls="icon-search">Найти</a>-->
+    <div style="margin-bottom:10px">
+        <a href="#" class="easyui-linkbutton" onclick="addBtn()"><i class="fa fa-plus-square" aria-hidden="true"></i> Добавить</a>
+        <a href="#" class="easyui-linkbutton" onclick="editBtn()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Редактировать</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"><i class="fa fa-floppy-o" aria-hidden="true"></i> Сохранить</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a>
     </div>
-	<div class="filters">
+    <div class="filters">
         <?=$searchData['fields'];?>
     </div>
 </div>

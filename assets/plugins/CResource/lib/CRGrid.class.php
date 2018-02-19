@@ -180,7 +180,7 @@ class CRGrid extends CRcore{
             $searchScripts = '$'.$this->jqname.'(\'#dataGrid\').datagrid(\'load\',{'.$searchScripts.'});';
         }
         if($searchFlds != ''){
-            $searchFlds .= '<a href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="findBtn()">Найти</a>';
+            $searchFlds .= '<a href="#" class="easyui-linkbutton" onclick="findBtn()"><i class="fa fa-search" aria-hidden="true"></i> Найти</a>';
         }
         $searchData['scripts']=$searchScripts;
         $searchData['fields']=$searchFlds;
