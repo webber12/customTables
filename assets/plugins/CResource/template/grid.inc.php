@@ -38,7 +38,7 @@
     a.l-btn span span.l-btn-icon-left{padding-left:0;}
     a.easyui-linkbutton{vertical-align:top;}
     a.easyui-linkbutton i.fa{}
-    .filters{padding:10px;background:#f5f5f5;text-align:right;}
+    .filters{padding:10px;background:#f5f5f5;/*text-align:right;*/}
     .filters label{margin-right:10px;}
     .filters label input{border:solid 1px #D4D4D4;background:#ffffff;padding:3px;}
     .tabs-header{border:none;background:none;}
