@@ -34,7 +34,7 @@
 <style>
     .datagrid-toolbar{background:#ffffff;}
     .datagrid-cell{color:#000;}
-    .panel-body{padding:20px 0 !important;}
+    .panel-body{padding:5px 0 !important;}
     a.l-btn span span.l-btn-icon-left{padding-left:0;}
     a.easyui-linkbutton{vertical-align:top;}
     a.easyui-linkbutton i.fa{}
@@ -64,10 +64,10 @@
 
 <div id="tbar" style="padding:5px;height:auto">
     <div style="margin-bottom:10px">
-        <a href="#" class="easyui-linkbutton" onclick="addBtn()"><i class="fa fa-plus-square" aria-hidden="true"></i> Добавить</a>
-        <a href="#" class="easyui-linkbutton" onclick="editBtn()"><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Редактировать</a>
-        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"><i class="fa fa-floppy-o" aria-hidden="true"></i> Сохранить</a>
-        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"><i class="fa fa-trash-o" aria-hidden="true"></i> Удалить</a>
+        <a href="#" class="easyui-linkbutton" onclick="addBtn()"><i class="fa fa-plus-square" aria-hidden="true"  style="color:#337ab7;"></i> Добавить</a>
+        <a href="#" class="easyui-linkbutton" onclick="editBtn()"><i class="fa fa-pencil-square-o" aria-hidden="true"  style="color:#337ab7;"></i> Редактировать</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"><i class="fa fa-floppy-o" aria-hidden="true" style="color:#5cb85c;"></i> Сохранить</a>
+        <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"><i class="fa fa-trash-o" aria-hidden="true" style="color:#e77755;"></i> Удалить</a>
     </div>
     <div class="filters">
         <?=$searchData['fields'];?>
