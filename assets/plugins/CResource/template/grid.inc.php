@@ -30,6 +30,13 @@
             pageList:[10,20,30,50,100,200,500,1000]
         });
     })(jQuery);
+jQuery(document).ready(function($){
+    $(".show_ct_filters").on("click", function(e){
+        e.preventDefault();
+        $("#tbar").toggleClass("active");
+        $(this).attr('title', $("#tbar").hasClass("active") ? ' свернуть фильтр ' : ' показать фильтр ');
+    })
+})
 </script>
 <style>
     .datagrid-toolbar{background:#ffffff;}
@@ -47,6 +54,11 @@
     #tt .tabs>li{padding: 0 14px;border-radius:0;height:40px;line-height:40px;}
     #tt .tabs>li a{border:none;}
     #tt .tabs>li.tabs-selected{border:solid 1px rgb(221, 221, 221);border-bottom:solid 1px #ffffff;background:#ffffff;}
+    #tbar{}
+    #tbar .filters{display:none;}
+    #tbar.active .filters{display:block;}
+    a.show_ct_filters{float:right;}
+    a.show_ct_filters i.fa{font-size:14px;color:#337ab7;}
 </style>
 <div id="tt" class="easyui-tabs" style="height:auto;">
     <div title="<?=$gridTabTitle;?>" style="padding:10px" data-options="closable:false" >
@@ -68,6 +80,7 @@
         <a href="#" class="easyui-linkbutton" onclick="editBtn()"><i class="fa fa-pencil-square-o" aria-hidden="true"  style="color:#337ab7;"></i> Редактировать</a>
         <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('saveRow')"><i class="fa fa-floppy-o" aria-hidden="true" style="color:#5cb85c;"></i> Сохранить</a>
         <a href="#" class="easyui-linkbutton" onclick="javascript:<?=$jqname;?>('#dataGrid').edatagrid('destroyRow')"><i class="fa fa-trash-o" aria-hidden="true" style="color:#e77755;"></i> Удалить</a>
+        <a href="#" class="easyui-linkbutton show_ct_filters" title="показать фильтр"><i class="fa fa-sliders"></i></a>
     </div>
     <div class="filters">
         <?=$searchData['fields'];?>
