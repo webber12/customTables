@@ -7,6 +7,14 @@ customTables
  - MODxAPI - https://github.com/AgelxNash/resourse
  - DocLister - https://github.com/AgelxNash/DocLister
  - CResource - https://github.com/AgelxNash/CResource
+ 
+ ### Что вы получаете (немного скриншотов)
+ *1. список товаров (дочерние ресурсы папки "товары") - https://yadi.sk/i/GmvXCpWY3UKwJK
+ *2. тот же список, но отфильтрован по категории товара, продавцу и диапазону цен, с сортировкой по возрастанию цены - https://yadi.sk/i/QMyNXfZw3UKwY9
+ *3. выборки товаров по tagSaver - товары конкретного продавца- https://yadi.sk/i/WjkP2dkG3UKwer и товары конкретной категории - https://yadi.sk/i/t-FspIQh3UKwp4
+ *4. список туров из пользовательской таблицы (не из дерева) с аналогичным функционалом сортировки/фильтрации https://yadi.sk/i/yI1g-Yyo3UKvVH
+ *5. редактирование туров из пользовательской таблицы (идентично редактированию ресурса, вы просто создаете обычный TV-параметр и прикрепляете его к нужному шаблону) - https://yadi.sk/i/tWmFrtWL3UKx4n и еще более интересное https://yadi.sk/i/yw1Wx_vJ3UKxAW
+
 
  ### Возможности
  ---------
