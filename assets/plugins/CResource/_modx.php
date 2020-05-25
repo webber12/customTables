@@ -12,7 +12,9 @@ include_once($root_dir . "/index.php");
 
 /** Принудительно обновляем конфиг */
 $modx->config = array();
-unlink(MODX_BASE_PATH . 'assets/cache/siteCache.idx.php');
+if(file_exists(MODX_BASE_PATH . 'assets/cache/siteCache.idx.php')) {
+    unlink(MODX_BASE_PATH . 'assets/cache/siteCache.idx.php');
+}
 $modx->getSettings();
 
 $modx->documentMethod = "id";
@@ -21,7 +23,7 @@ $modx->documentIdentifier = (isset($_REQUEST['id'])) ? (int)$_REQUEST['id'] : $m
 
 //$modx->invokeEvent("OnWebPageInit");
 
-define("IN_MANAGER_MODE", true);
+//define("IN_MANAGER_MODE", true);
 
 if (!isset($_SESSION['mgrValidated'])) {
     echo "Not Logged In!";

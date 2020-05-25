@@ -109,3 +109,4 @@ switch($mode){
 }
 
 echo $out;
+exit();
